@@ -1,0 +1,6 @@
+{
+  "name": "IronTrack - Scheda Super Serie & Gym Tracker",
+  "description": "Tracker professionale per allenamenti in palestra in super serie (Full Body & Braccia/Cardio), gestione carichi, cronometro di recupero e progressioni su misura per smartphone.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
