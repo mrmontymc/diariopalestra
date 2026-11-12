@@ -2,6 +2,7 @@ import React, { useState, useMemo } from 'react';
 import { useWorkout } from '../context/WorkoutContext';
 import { ExerciseCategory, ExerciseLogItem, WorkoutSessionLog } from '../types/workout';
 import { generateWorkoutStatisticsPdf } from '../utils/pdfExport';
+import { calculateCardioCalories } from '../utils/calorieCalculator';
 import {
   History,
   Calendar,
@@ -26,7 +27,8 @@ import {
   TrendingUp,
   FileText,
   Loader2,
-  AlertTriangle
+  AlertTriangle,
+  Heart
 } from 'lucide-react';
 
 type TimeFilterOption = 'all' | '7d' | '30d' | '90d' | 'year';
@@ -49,7 +51,7 @@ export const WorkoutHistoryView: React.FC = () => {
     importUserData,
     resetAllPRs
   } = useWorkout();
-  const [activeSubTab, setActiveSubTab] = useState<'sedute' | 'statistiche'>('statistiche');
+  const [activeSubTab, setActiveSubTab] = useState<'sedute' | 'statistiche'>('sedute');
   const [expandedLogId, setExpandedLogId] = useState<string | null>(null);
   const [showExportModal, setShowExportModal] = useState(false);
   const [importJsonText, setImportJsonText] = useState('');
@@ -75,6 +77,28 @@ export const WorkoutHistoryView: React.FC = () => {
       return `${hours}h ${remainingMins}m`;
     }
     return `${mins}m ${secs < 10 ? '0' : ''}${secs}s`;
+  };
+
+  const formatZoneSec = (seconds: number) => {
+    const m = Math.floor(seconds / 60);
+    const s = seconds % 60;
+    if (m === 0) return `${s}"`;
+    return `${m}'${s.toString().padStart(2, '0')}"`;
+  };
+
+  const getActivityMeta = (equipment?: string) => {
+    const map: Record<string, { label: string; icon: string }> = {
+      vogatore: { label: 'Vogatore Concept2', icon: '🚣' },
+      air_bike: { label: 'Air Bike (Echo / Assault)', icon: '🚴' },
+      skierg: { label: 'SkiErg Concept2', icon: '⛷️' },
+      tapis_roulant: { label: 'Tapis Roulant / Corsa', icon: '🏃' },
+      corsa: { label: 'Corsa', icon: '🏃' },
+      cyclette: { label: 'Cyclette / Spin Bike', icon: '🚲' },
+      corda: { label: 'Salto con la Corda', icon: '🪢' },
+      ellittica: { label: 'Ellittica', icon: '🚶' },
+      cardio_libero: { label: 'Cardio Libero', icon: '⚡' }
+    };
+    return map[equipment || ''] || { label: equipment || 'Cardio', icon: '⚡' };
   };
 
   const handleExport = () => {
@@ -179,6 +203,9 @@ export const WorkoutHistoryView: React.FC = () => {
     let cardioSessionsCount = 0;
     let totalMetconRounds = 0;
     let metconSessionsCount = 0;
+    let hrSessionsCount = 0;
+    let totalHrSum = 0;
+    let overallMaxBpm = 0;
 
     // Exercise breakdown ranking
     const exerciseAggregates: Record<
@@ -198,6 +225,12 @@ export const WorkoutHistoryView: React.FC = () => {
       totalDurationSec += s.durationSec || 0;
       totalActualRestSec += s.totalActualRestSec || 0;
       totalRestPeriodsCount += s.restPeriods?.length || 0;
+
+      if (s.heartRateData && s.heartRateData.avgBpm > 0) {
+        hrSessionsCount++;
+        totalHrSum += s.heartRateData.avgBpm;
+        overallMaxBpm = Math.max(overallMaxBpm, s.heartRateData.maxBpm || 0);
+      }
 
       if (s.cardioLog) {
         cardioSessionsCount++;
@@ -252,6 +285,7 @@ export const WorkoutHistoryView: React.FC = () => {
 
     const avgRestSec =
       totalRestPeriodsCount > 0 ? Math.round(totalActualRestSec / totalRestPeriodsCount) : 0;
+    const avgHrOverall = hrSessionsCount > 0 ? Math.round(totalHrSum / hrSessionsCount) : 0;
 
     const rankedExercises = Object.values(exerciseAggregates).sort(
       (a, b) => b.totalVolumeKg - a.totalVolumeKg || b.completedSets - a.completedSets
@@ -271,6 +305,9 @@ export const WorkoutHistoryView: React.FC = () => {
       cardioSessionsCount,
       totalMetconRounds,
       metconSessionsCount,
+      hrSessionsCount,
+      avgHrOverall,
+      overallMaxBpm,
       rankedExercises
     };
   }, [filteredSessions, exerciseTypeFilter, variants]);
@@ -405,7 +442,7 @@ export const WorkoutHistoryView: React.FC = () => {
               )}
             </div>
 
-            <div className="flex gap-1.5 overflow-x-auto pb-1 no-scrollbar">
+            <div className="flex gap-2 overflow-x-auto py-1 px-1 no-scrollbar scroll-smooth">
               {[
                 { id: 'all', label: 'Tutto' },
                 { id: '7d', label: '7 Giorni' },
@@ -417,7 +454,7 @@ export const WorkoutHistoryView: React.FC = () => {
                   key={opt.id}
                   type="button"
                   onClick={() => setTimeFilter(opt.id as TimeFilterOption)}
-                  className={`px-3 py-1 rounded-xl text-xs font-bold transition-all whitespace-nowrap ${
+                  className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all whitespace-nowrap shrink-0 ${
                     timeFilter === opt.id
                       ? 'bg-emerald-500 text-zinc-950 shadow-sm'
                       : 'bg-zinc-800 text-zinc-400 hover:text-white border border-zinc-700/60'
@@ -448,7 +485,7 @@ export const WorkoutHistoryView: React.FC = () => {
               )}
             </div>
 
-            <div className="flex gap-1.5 overflow-x-auto pb-1 no-scrollbar">
+            <div className="flex gap-2 overflow-x-auto py-1 px-1 no-scrollbar scroll-smooth">
               {[
                 { id: 'all', label: 'Tutti i tipi' },
                 { id: 'fondamentale', label: 'Fondamentali' },
@@ -462,7 +499,7 @@ export const WorkoutHistoryView: React.FC = () => {
                   key={opt.id}
                   type="button"
                   onClick={() => setExerciseTypeFilter(opt.id as ExerciseTypeFilterOption)}
-                  className={`px-3 py-1 rounded-xl text-xs font-bold transition-all whitespace-nowrap ${
+                  className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all whitespace-nowrap shrink-0 ${
                     exerciseTypeFilter === opt.id
                       ? 'bg-orange-500 text-zinc-950 shadow-sm'
                       : 'bg-zinc-800 text-zinc-400 hover:text-white border border-zinc-700/60'
@@ -688,6 +725,40 @@ export const WorkoutHistoryView: React.FC = () => {
             </div>
           </div>
 
+          {/* CARD 4B: TELEMETRIA FASCIA CARDIO & BATTITI CARDIACI */}
+          {filteredStats.hrSessionsCount > 0 && (
+            <div className="bg-zinc-900 border border-zinc-800 rounded-3xl p-4 shadow-lg space-y-3">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2 text-xs font-bold text-rose-400 uppercase tracking-wider">
+                  <Heart className="w-4 h-4 fill-current text-rose-500" />
+                  <span>Telemetria Fascia Cardio (BPM)</span>
+                </div>
+                <span className="text-[10px] font-mono text-zinc-400">
+                  {filteredStats.hrSessionsCount} sedute monitorate
+                </span>
+              </div>
+
+              <div className="grid grid-cols-2 gap-2 text-center">
+                <div className="bg-zinc-950/70 border border-zinc-800 rounded-2xl p-2.5">
+                  <span className="text-[10px] text-zinc-400 uppercase font-bold block">
+                    BPM Medio Allenamenti
+                  </span>
+                  <span className="text-xl font-black font-mono text-emerald-300">
+                    {filteredStats.avgHrOverall} <span className="text-xs font-sans text-rose-400 font-bold">BPM</span>
+                  </span>
+                </div>
+                <div className="bg-zinc-950/70 border border-zinc-800 rounded-2xl p-2.5">
+                  <span className="text-[10px] text-zinc-400 uppercase font-bold block">
+                    Picco Massimo Registrato
+                  </span>
+                  <span className="text-xl font-black font-mono text-rose-400">
+                    {filteredStats.overallMaxBpm} <span className="text-xs font-sans text-rose-400 font-bold">BPM</span>
+                  </span>
+                </div>
+              </div>
+            </div>
+          )}
+
           {/* CARD 5: DETTAGLIO CARICHI & ESERCIZI NEL PERIODO (FILTRATO) */}
           <div className="bg-zinc-900 border border-zinc-800 rounded-3xl p-4 shadow-lg space-y-3">
             <div className="flex items-center justify-between">
@@ -853,6 +924,46 @@ export const WorkoutHistoryView: React.FC = () => {
                       <span className="text-[9px] text-zinc-400 block">Ø {avgRestSec}s</span>
                     </div>
                   </div>
+
+                  {/* Heart Rate Telemetry Card if recorded */}
+                  {log.heartRateData && (
+                    <div className="mt-3 p-3 bg-gradient-to-r from-rose-950/30 via-zinc-950 to-zinc-950 rounded-2xl border border-rose-500/30">
+                      <div className="flex items-center justify-between mb-2">
+                        <div className="flex items-center gap-1.5 text-xs font-bold text-rose-400">
+                          <Heart className="w-3.5 h-3.5 fill-current text-rose-500" />
+                          <span>Fascia Cardio</span>
+                          {log.heartRateData.connectedDeviceName && (
+                            <span className="text-[10px] text-zinc-400 font-normal truncate max-w-[130px]">
+                              ({log.heartRateData.connectedDeviceName})
+                            </span>
+                          )}
+                          {log.heartRateData.isSimulated && (
+                            <span className="text-[9px] px-1.5 py-0.2 bg-amber-500/20 text-amber-300 rounded font-mono uppercase">
+                              Demo
+                            </span>
+                          )}
+                        </div>
+                        <div className="font-mono text-xs font-bold text-rose-300">
+                          {log.heartRateData.samples.length} rilevazioni
+                        </div>
+                      </div>
+
+                      <div className="grid grid-cols-3 gap-1.5 text-center">
+                        <div className="bg-zinc-900/80 border border-zinc-800/80 rounded-xl p-1.5">
+                          <span className="text-[8px] text-zinc-400 uppercase font-bold block">BPM Min</span>
+                          <span className="text-xs font-mono font-bold text-cyan-300">{log.heartRateData.minBpm || '--'}</span>
+                        </div>
+                        <div className="bg-zinc-900/80 border border-zinc-800/80 rounded-xl p-1.5">
+                          <span className="text-[8px] text-zinc-400 uppercase font-bold block">BPM Medio</span>
+                          <span className="text-xs font-mono font-black text-emerald-400">{log.heartRateData.avgBpm || '--'}</span>
+                        </div>
+                        <div className="bg-zinc-900/80 border border-zinc-800/80 rounded-xl p-1.5">
+                          <span className="text-[8px] text-zinc-400 uppercase font-bold block">BPM Max</span>
+                          <span className="text-xs font-mono font-black text-rose-400">{log.heartRateData.maxBpm || '--'}</span>
+                        </div>
+                      </div>
+                    </div>
+                  )}
 
                   {/* Metcon Result Card with Movements & Weights */}
                   {log.metconLog && (

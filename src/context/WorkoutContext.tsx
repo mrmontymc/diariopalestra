@@ -5,14 +5,18 @@ import {
   WorkoutSessionLog,
   ExerciseVariantStats,
   SuperSetPair,
-  SetEntry
+  SetEntry,
+  MetconConfig,
+  MetconResultLog,
+  HeartRateSessionData,
+  CardioSessionConfig
 } from '../types/workout';
 import { DEFAULT_WEEKLY_ROUTINES } from '../data/defaultProgram';
 import { INITIAL_EXERCISE_VARIANTS } from '../data/defaultVariants';
 import { playTimerFinishBeep, playShortBeep, playCountdownWarningBeep } from '../utils/audio';
 
 const STORAGE_KEYS = {
-  ROUTINES: 'irontrack_routines_v2',
+  ROUTINES: 'irontrack_routines_v3',
   VARIANTS: 'irontrack_variants_v2',
   VARIANT_WEIGHTS: 'irontrack_variant_weights_v2',
   SESSION_LOGS: 'irontrack_session_logs_v1',
@@ -225,6 +229,36 @@ const INITIAL_VARIANT_WEIGHTS: Record<string, ExerciseVariantStats> = {
     lastTrainedDate: '2026-11-02',
     progressionStreak: 1,
     history: []
+  },
+  calf_raise_manubri: {
+    variantId: 'calf_raise_manubri',
+    variantName: 'Calf raise con manubri',
+    maxWeightKg: 16,
+    lastUsedWeightKg: 16,
+    lastUsedReps: 15,
+    lastTrainedDate: '2026-11-02',
+    progressionStreak: 1,
+    history: []
+  },
+  air_squat_fermo: {
+    variantId: 'air_squat_fermo',
+    variantName: 'Air squat con fermo in buca',
+    maxWeightKg: 0,
+    lastUsedWeightKg: 0,
+    lastUsedReps: 15,
+    lastTrainedDate: '2026-11-02',
+    progressionStreak: 1,
+    history: []
+  },
+  rematore_manubri_petto: {
+    variantId: 'rematore_manubri_petto',
+    variantName: 'Rematore con manubri, petto poggiato',
+    maxWeightKg: 16,
+    lastUsedWeightKg: 16,
+    lastUsedReps: 15,
+    lastTrainedDate: '2026-11-02',
+    progressionStreak: 1,
+    history: []
   }
 };
 
@@ -250,7 +284,7 @@ interface WorkoutContextType {
   swapExerciseInRoutine: (routineId: string, pairId: string, role: 'primary' | 'secondary', newVariantId: string) => void;
   
   // Variant actions
-  addVariant: (newVariant: Omit<ExerciseVariant, 'id'>) => ExerciseVariant;
+  addVariant: (newVariant: Omit<ExerciseVariant, 'id'>, initialWeightKg?: number) => ExerciseVariant;
   updateVariant: (variant: ExerciseVariant) => void;
   getVariantById: (id: string) => ExerciseVariant | undefined;
   getVariantsForPattern: (pattern: string) => ExerciseVariant[];
@@ -258,13 +292,16 @@ interface WorkoutContextType {
   // Weight & History Tracking
   getWeightStatsForVariant: (variantId: string) => ExerciseVariantStats | undefined;
   getLastRecordedWeightForVariant: (variantId: string, variantName?: string) => number;
-  recordExerciseSetWeight: (variantId: string, weightKg: number, reps: number, dateIso?: string) => void;
+  recordExerciseSetWeight: (variantId: string, weightKg: number, reps: number, dateIso?: string, explicitVariantName?: string) => void;
   resetAllPRs: () => void;
   
   // Session actions
   startWorkout: (routineId: string) => void;
+  startMetconWorkout: (metcon: MetconResultLog, title?: string) => void;
+  startCardioWorkout: (config: CardioSessionConfig) => void;
+  applyMetconToRoutine: (routineId: string, metcon: MetconConfig) => void;
   updateActiveSession: (updater: (prev: WorkoutSessionLog) => WorkoutSessionLog) => void;
-  finishWorkout: () => void;
+  finishWorkout: (heartRateData?: HeartRateSessionData) => void;
   discardActiveWorkout: () => void;
   deleteSessionLog: (id: string) => void;
   
@@ -302,7 +339,17 @@ export const WorkoutProvider: React.FC<{ children: ReactNode }> = ({ children })
   const [variants, setVariants] = useState<ExerciseVariant[]>(() => {
     try {
       const stored = localStorage.getItem(STORAGE_KEYS.VARIANTS);
-      if (stored) return JSON.parse(stored);
+      if (stored) {
+        const parsed: ExerciseVariant[] = JSON.parse(stored);
+        const existingIds = new Set(parsed.map(v => v.id));
+        const missingDefaults = INITIAL_EXERCISE_VARIANTS.filter(v => !existingIds.has(v.id));
+        if (missingDefaults.length > 0) {
+          const merged = [...parsed, ...missingDefaults];
+          localStorage.setItem(STORAGE_KEYS.VARIANTS, JSON.stringify(merged));
+          return merged;
+        }
+        return parsed;
+      }
     } catch (e) {
       console.error('Failed to load variants:', e);
     }
@@ -559,13 +606,16 @@ export const WorkoutProvider: React.FC<{ children: ReactNode }> = ({ children })
   };
 
   // Variant management
-  const addVariant = (newVariantData: Omit<ExerciseVariant, 'id'>): ExerciseVariant => {
-    const id = `custom_${Date.now()}_${newVariantData.name.toLowerCase().replace(/\s+/g, '_')}`;
+  const addVariant = (newVariantData: Omit<ExerciseVariant, 'id'>, initialWeightKg?: number): ExerciseVariant => {
+    const id = `custom_${Date.now()}_${newVariantData.name.toLowerCase().replace(/[^a-z0-9]/g, '_')}`;
     const fullVariant: ExerciseVariant = {
       ...newVariantData,
       id
     };
     setVariants(prev => [...prev, fullVariant]);
+    if (initialWeightKg !== undefined && initialWeightKg > 0) {
+      recordExerciseSetWeight(id, initialWeightKg, 5, new Date().toISOString(), fullVariant.name);
+    }
     return fullVariant;
   };
 
@@ -585,9 +635,15 @@ export const WorkoutProvider: React.FC<{ children: ReactNode }> = ({ children })
     return variantWeights[variantId];
   };
 
-  const recordExerciseSetWeight = (variantId: string, weightKg: number, reps: number, dateIso = new Date().toISOString()) => {
+  const recordExerciseSetWeight = (
+    variantId: string,
+    weightKg: number,
+    reps: number,
+    dateIso = new Date().toISOString(),
+    explicitVariantName?: string
+  ) => {
     const variant = variants.find(v => v.id === variantId);
-    const variantName = variant ? variant.name : variantId;
+    const variantName = explicitVariantName || (variant ? variant.name : variantId);
 
     setVariantWeights(prev => {
       const existing = prev[variantId] || {
@@ -820,11 +876,66 @@ export const WorkoutProvider: React.FC<{ children: ReactNode }> = ({ children })
     setActiveSession(newSession);
   };
 
+  const startMetconWorkout = (metcon: MetconResultLog, sessionTitle?: string) => {
+    const newSession: WorkoutSessionLog = {
+      id: `session_${Date.now()}`,
+      routineId: 'metcon_standalone',
+      routineTitle: sessionTitle || `Metcon - ${metcon.title}`,
+      date: new Date().toISOString(),
+      startTime: Date.now(),
+      durationSec: 0,
+      completed: false,
+      exerciseLogs: [],
+      totalActualRestSec: 0,
+      averageRestSec: 0,
+      restPeriods: [],
+      metconLog: metcon
+    };
+    setActiveSession(newSession);
+  };
+
+  const startCardioWorkout = (config: CardioSessionConfig) => {
+    const durationEst = config.mode === 'steady'
+      ? (config.targetDurationMin || 20)
+      : Math.round(((config.intervals?.rounds || 8) * ((config.intervals?.workSec || 20) + (config.intervals?.restSec || 10))) / 60);
+
+    const newSession: WorkoutSessionLog = {
+      id: `session_${Date.now()}`,
+      routineId: 'cardio_standalone',
+      routineTitle: `Cardio: ${config.activityLabel}`,
+      date: new Date().toISOString(),
+      startTime: Date.now(),
+      durationSec: 0,
+      completed: false,
+      exerciseLogs: [],
+      totalActualRestSec: 0,
+      averageRestSec: 0,
+      restPeriods: [],
+      cardioSessionConfig: config,
+      cardioLog: {
+        equipment: config.activity,
+        durationMin: durationEst,
+        caloriesKcal: config.targetCalories || 0,
+        sensations: '',
+        mode: config.mode,
+        intervalsCompleted: 0,
+        totalIntervals: config.mode === 'intervals' ? config.intervals?.rounds : undefined
+      }
+    };
+    setActiveSession(newSession);
+  };
+
+  const applyMetconToRoutine = (routineId: string, metconConfig: MetconConfig) => {
+    setRoutines(prev =>
+      prev.map(r => (r.id === routineId ? { ...r, metcon: metconConfig } : r))
+    );
+  };
+
   const updateActiveSession = (updater: (prev: WorkoutSessionLog) => WorkoutSessionLog) => {
     setActiveSession(prev => (prev ? updater(prev) : null));
   };
 
-  const finishWorkout = () => {
+  const finishWorkout = (heartRateData?: HeartRateSessionData) => {
     if (!activeSession) return;
 
     const now = Date.now();
@@ -840,7 +951,8 @@ export const WorkoutProvider: React.FC<{ children: ReactNode }> = ({ children })
       completed: true,
       totalActualRestSec: activeSession.totalActualRestSec || 0,
       averageRestSec: finalAvgRest,
-      restPeriods: activeSession.restPeriods || []
+      restPeriods: activeSession.restPeriods || [],
+      heartRateData: heartRateData || activeSession.heartRateData
     };
 
     // Update weights tracking for each completed exercise
@@ -951,6 +1063,9 @@ export const WorkoutProvider: React.FC<{ children: ReactNode }> = ({ children })
         recordExerciseSetWeight,
         resetAllPRs,
         startWorkout,
+        startMetconWorkout,
+        startCardioWorkout,
+        applyMetconToRoutine,
         updateActiveSession,
         finishWorkout,
         discardActiveWorkout,

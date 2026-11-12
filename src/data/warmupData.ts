@@ -34,9 +34,9 @@ export interface WarmupProtocol {
 }
 
 export const COMMON_BASE_EXERCISES: WarmupExercise[] = [
-  { name: 'Cat-cow a terra', repsOrTime: '8 ripetizioni', notes: 'Mobilizza la colonna in flessione ed estensione ritmica con respiro profondo.' },
+  { name: 'Cat-cow a terra', repsOrTime: '8 ripetizioni', notes: 'Mobilizza la colonna in flessione ed estensione con respiro controllato.' },
   { name: "World's greatest stretch", repsOrTime: '4 per lato', notes: 'Affondo profondo con rotazione toracica verso il ginocchio anteriore.' },
-  { name: 'Glute bridge a terra', repsOrTime: '10 ripetizioni', notes: 'Fermo isometrico di 1" in cima con glutei serrati, bacino neutro.' },
+  { name: 'Glute bridge a terra', repsOrTime: '10 ripetizioni', notes: 'Attivazione glutei con retroversione del bacino al picco.' },
   { name: 'Scap push-up (piegamenti scapolari)', repsOrTime: '10 ripetizioni', notes: 'Braccia tese: solo adduzione e abduzione pura delle scapole.' }
 ];
 
@@ -121,10 +121,10 @@ export const RAMP_MILITARY: RampOption = {
 };
 
 // ============================================================================
-// PROTOCOLLI DI RISCALDAMENTO SPECIFICO DEL NUOVO PDF
+// PROTOCOLLI DI RISCALDAMENTO SPECIFICO DEL NUOVO PDF (PAGINA 2)
 // ============================================================================
 export const WARMUP_PROTOCOLS: Record<string, WarmupProtocol> = {
-  // --- LUNEDÌ (SEDUTA A) ---
+  // --- LUNEDÌ (SEDUTA A - SQUAT, PANCA, REMATORE) ---
   lun: {
     id: 'warmup_seduta_a_lun',
     routineDayKey: 'lun',
@@ -133,47 +133,47 @@ export const WARMUP_PROTOCOLS: Record<string, WarmupProtocol> = {
     openingExercise: 'Back Squat & Panca Piana',
     durationLabel: "5' base + 6-8' specifico",
     commonBase: {
-      cardio: "2' di vogatore facile o corda (oppure Air bike, SkiErg, Tapis roulant)",
-      mobilityCircuits: '2 giri completi senza pausa:',
+      cardio: "2' di vogatore facile o corda",
+      mobilityCircuits: '2 giri: 8 cat-cow, 4 world\'s greatest stretch per lato, 10 glute bridge, 10 scap push-up',
       exercises: COMMON_BASE_EXERCISES
     },
     specificBlock: {
       title: 'Blocco specifico: Seduta A (Squat, Panca, Rematore)',
-      focus: 'Mobilità bacino, attivazione core, cuffia dei rotatori e rampe progressive',
+      focus: 'Mobilità anche, core, polpacci, cuffia dei rotatori e rampe pesi',
       exercises: [
         {
-          name: 'Goblet squat con kettlebell leggera',
+          name: '1. Goblet squat con pausa di 3" sul fondo',
           repsOrTime: '2 serie × 8 rip',
-          notes: 'Pausa di 3" sul fondo per aprire il bacino e mantenere il petto alto.'
+          notes: 'Con kettlebell leggera: apertura del bacino e petto alto.'
         },
         {
-          name: 'Dead bug a terra',
+          name: '2. Dead bug',
           repsOrTime: '2 serie × 8 per lato',
-          notes: 'Schiena lombare incollata al suolo, controllo respiratorio.'
+          notes: 'Schiena lombare incollata al suolo, controllo respiratorio diaframmatico.'
         },
         {
-          name: 'Hip hinge con bastone (o stacco manubri leggeri)',
-          repsOrTime: '1 serie × 10 rip',
-          notes: 'Cerniera d\'anca impeccabile: prepara lo stacco con manubri dello slot 2.'
+          name: '3. Alzate sul tallone (Calf)',
+          repsOrTime: '1 serie × 15 rip',
+          notes: 'Prepara i polpacci per la super serie A2 (Calf raise con manubri).'
         },
         {
-          name: 'Band pull-apart + Extrarotazione con elastico',
-          repsOrTime: '2×15 pull-apart + 1×12/lato extrarot.',
+          name: '4. Band pull-apart + Extrarotazione con elastico',
+          repsOrTime: '2×15 pull-apart + 1×12 per lato',
           notes: 'Scalda deltoidi posteriori, romboidi e cuffia dei rotatori per la panca.'
         },
         {
-          name: 'Scap push-up a terra',
+          name: '5. Scap push-up',
           repsOrTime: '1 serie × 10 rip',
-          notes: 'Adduzione e abduzione scapolare controllata.'
+          notes: 'Adduzione e abduzione scapolare pura a braccia distese.'
         },
         {
-          name: 'Rampa squat bilanciere',
+          name: '6. Rampa squat bilanciere',
           repsOrTime: 'Bilanciere vuoto ×8, 40% ×5, 60% ×3, 80% ×2',
-          notes: 'Poi parti con le 4 serie vere da 5 colpi.',
+          notes: 'Poi parti direttamente con le 4 serie vere da 5 colpi.',
           isRamp: true
         },
         {
-          name: 'Rampa panca & Rematore',
+          name: '7. Rampa panca & Rematore',
           repsOrTime: 'Panca: bilanciere ×10, 50% ×5, 70% ×3, 85% ×1 • Rematore: 1 serie leggera da 8',
           notes: 'Poi esegui le serie vere.',
           isRamp: true
@@ -184,66 +184,66 @@ export const WARMUP_PROTOCOLS: Record<string, WarmupProtocol> = {
     },
     specialRules: [
       'Ogni nuova coppia: prima serie del fondamentale leggera (~60%), poi le 4 vere. Non rifare tutto il riscaldamento.',
-      'Zona lombare rigida: fai 2 giri in più di glute bridge e dead bug prima di squat, stacco o swing.',
-      'Rematore petto poggiato: fai solo 1 serie leggera da 8 ripetizioni prima delle 4×8 vere.'
+      'Zona lombare rigida: 2 giri in più di glute bridge e dead bug prima di squat, hip thrust o swing.',
+      'Sabato dopo pallavolo: aggiungi 2×10 abduzioni d\'anca con elastico e 2×10 alzate sul tallone.'
     ]
   },
 
-  // --- GIOVEDÌ (SEDUTA A - ORDINE RUOTATO) ---
+  // --- GIOVEDÌ (SEDUTA A - ORDINE RUOTATO: REMATORE, SQUAT, PANCA) ---
   gio: {
     id: 'warmup_seduta_a_gio',
     routineDayKey: 'gio',
     sessionType: 'A',
-    routineTitle: 'Seduta A (Rematore, Squat, Panca)',
-    openingExercise: 'Rematore & Back Squat',
+    routineTitle: 'Seduta A (Rematore, Squat, Panca - A3-A1-A2)',
+    openingExercise: 'Rematore petto poggiato & Back Squat',
     durationLabel: "5' base + 6-8' specifico",
     commonBase: {
-      cardio: "2' di vogatore facile o corda (oppure Air bike, SkiErg, Tapis roulant)",
-      mobilityCircuits: '2 giri completi senza pausa:',
+      cardio: "2' di vogatore facile o corda",
+      mobilityCircuits: '2 giri: 8 cat-cow, 4 world\'s greatest stretch per lato, 10 glute bridge, 10 scap push-up',
       exercises: COMMON_BASE_EXERCISES
     },
     specificBlock: {
-      title: 'Blocco specifico: Seduta A (Apertura con Rematore a schiena fresca)',
-      focus: 'Attivazione dorsale, catena posteriore per KB swing e rampe Squat/Panca',
+      title: 'Blocco specifico: Seduta A Giovedì (Parti col Rematore a schiena fresca)',
+      focus: 'Attivazione dorsale, mobilità anche, polpacci e rampe',
       exercises: [
         {
-          name: 'Goblet squat con kettlebell leggera',
+          name: '1. Goblet squat con pausa di 3" sul fondo',
           repsOrTime: '2 serie × 8 rip',
-          notes: 'Pausa di 3" sul fondo per aprire il bacino e mantenere il petto alto.'
+          notes: 'Con kettlebell leggera: apertura del bacino e mobilità caviglie.'
         },
         {
-          name: 'Dead bug a terra',
+          name: '2. Dead bug',
           repsOrTime: '2 serie × 8 per lato',
-          notes: 'Attivazione core profondo.'
+          notes: 'Core attivo e colonna neutra.'
         },
         {
-          name: 'Hip hinge con bastone (o stacco manubri leggeri)',
-          repsOrTime: '1 serie × 10 rip',
-          notes: 'Cerniera d\'anca impeccabile: prepara il KB swing dello slot 2.'
+          name: '3. Alzate sul tallone (Calf)',
+          repsOrTime: '1 serie × 15 rip',
+          notes: 'Prepara i polpacci per la super serie A2 con panca.'
         },
         {
-          name: 'Band pull-apart + Extrarotazione con elastico',
-          repsOrTime: '2×15 pull-apart + 1×12/lato extrarot.',
+          name: '4. Band pull-apart + Extrarotazione con elastico',
+          repsOrTime: '2×15 pull-apart + 1×12 per lato',
           notes: 'Cuffia dei rotatori e scapole pronte.'
         },
         {
-          name: 'Scap push-up',
+          name: '5. Scap push-up',
           repsOrTime: '1 serie × 10 rip',
-          notes: 'Protrai e ritrai le scapole a braccia tese.'
+          notes: 'Controllo scapolare.'
         },
         {
-          name: 'Rematore petto poggiato (Apertura giovedì)',
+          name: 'Apertura Rematore petto poggiato',
           repsOrTime: '1 serie leggera da 8 rip',
-          notes: 'Poi subito le 4 serie da 8 colpi a schiena fresca!'
+          notes: 'Poi parti subito con le 4×8 vere a schiena fresca!'
         },
         {
-          name: 'Rampa squat bilanciere',
+          name: '6. Rampa squat bilanciere',
           repsOrTime: 'Bilanciere vuoto ×8, 40% ×5, 60% ×3, 80% ×2',
-          notes: 'Poi le serie vere da 5 colpi.',
+          notes: 'Poi le 4 serie vere da 5 colpi.',
           isRamp: true
         },
         {
-          name: 'Rampa panca piana',
+          name: '7. Rampa panca piana',
           repsOrTime: 'Bilanciere ×10, 50% ×5, 70% ×3, 85% ×1',
           notes: 'Poi le 4 serie vere da 5 colpi.',
           isRamp: true
@@ -253,124 +253,59 @@ export const WARMUP_PROTOCOLS: Record<string, WarmupProtocol> = {
       rampGuides: [RAMP_SQUAT, RAMP_PANCA]
     },
     specialRules: [
-      'Ogni nuova coppia: prima serie del fondamentale leggera (~60%), poi le 4 vere. Non rifare tutto il riscaldamento.',
-      'Zona lombare rigida: 2 giri in più di glute bridge e dead bug prima di squat, stacco o swing.',
-      'Slot 2 Giovedì: KB swing al posto dello stacco (cerniera balistica).'
+      'Ordine Giovedì: A3 - A1 - A2 (parti col rematore petto poggiato a schiena fresca).',
+      'Ogni nuova coppia: prima serie del fondamentale leggera (~60%), poi le 4 vere.',
+      'Zona lombare rigida: 2 giri in più di glute bridge e dead bug prima di squat o stacco.'
     ]
   },
 
-  // --- MARTEDÌ (SEDUTA B) ---
+  // --- MARTEDÌ (SEDUTA B - MILITARY, TRAZIONI, HIP THRUST) ---
   mar: {
     id: 'warmup_seduta_b_mar',
     routineDayKey: 'mar',
     sessionType: 'B',
-    routineTitle: 'Seduta B (Hip thrust, Military, Trazioni)',
-    openingExercise: 'Hip Thrust & Military Press',
+    routineTitle: 'Seduta B (Military, Trazioni, Hip thrust)',
+    openingExercise: 'Military Press, Trazioni & Hip Thrust',
     durationLabel: "5' base + 6-8' specifico",
     commonBase: {
-      cardio: "2' di vogatore facile o corda (oppure Air bike, SkiErg, Tapis roulant)",
-      mobilityCircuits: '2 giri completi senza pausa:',
+      cardio: "2' di vogatore facile o corda",
+      mobilityCircuits: '2 giri: 8 cat-cow, 4 world\'s greatest stretch per lato, 10 glute bridge, 10 scap push-up',
       exercises: COMMON_BASE_EXERCISES
     },
     specificBlock: {
-      title: 'Blocco specifico: Seduta B (Hip thrust, Military, Trazioni)',
-      focus: 'Attivazione glutei con fermo, decompressione alla sbarra, stabilità spalle',
+      title: 'Blocco specifico: Seduta B (Military, Trazioni, Hip thrust)',
+      focus: 'Mobilità spalle overhead, trazioni, glutei e rampe progressive',
       exercises: [
         {
-          name: 'Glute bridge con pausa di 2"',
-          repsOrTime: '2 serie × 10 rip',
-          notes: 'Prepara l\'hip thrust con forte contrazione isometrica in cima.'
-        },
-        {
-          name: 'Dead bug a terra',
-          repsOrTime: '1 serie × 8 per lato',
-          notes: 'Controllo stabilità pelvica e lombare neutra.'
-        },
-        {
-          name: 'Band pull-apart + Passaggi di spalla con elastico',
+          name: '1. Band pull-apart + Passaggi di spalla con elastico',
           repsOrTime: '2×15 pull-apart + 1×12 passaggi',
-          notes: 'Prepara la mobilità overhead per il military press.'
+          notes: 'Prepara il military press con mobilità scapolo-omerale.'
         },
         {
-          name: 'Dead hang alla sbarra + Scap pull-up',
+          name: '2. Air squat con fermo di 3"',
+          repsOrTime: '1 serie × 10 rip',
+          notes: 'Prepara la super serie B1 (Air squat con fermo in buca 3-5").'
+        },
+        {
+          name: '3. Dead hang + Scap pull-up',
           repsOrTime: '2×20" hang + 1×8 scap pull-up',
-          notes: 'Decompressione discale e risveglio del gran dorsale.'
+          notes: 'Decompressione discale alla sbarra e attivazione gran dorsale.'
         },
         {
-          name: 'Rampa hip thrust',
-          repsOrTime: 'Bilanciere vuoto ×10, 50% ×5, 70% ×3',
-          notes: 'Poi le 4 serie vere da 6-8 ripetizioni con blocco al picco.',
-          isRamp: true
-        },
-        {
-          name: 'Rampa military press & Trazioni',
-          repsOrTime: 'Military: bilanciere ×8, 50% ×5, 70% ×3 • Trazioni: 3 facilitate (elastico), 3 pulite',
-          notes: 'Poi le serie vere.',
-          isRamp: true
-        }
-      ],
-      rampGuide: RAMP_HIP_THRUST,
-      rampGuides: [RAMP_HIP_THRUST, RAMP_MILITARY]
-    },
-    specialRules: [
-      'Ogni nuova coppia: prima serie del fondamentale leggera (~60%), poi le 4 vere. Non rifare tutto il riscaldamento.',
-      'Trazioni: prima delle serie pesanti, 3 con elastico e 3 pulite a corpo libero sono sufficienti.',
-      'Se la zona lombare è rigida: fai 2 giri in più di glute bridge e dead bug prima dell\'hip thrust.'
-    ]
-  },
-
-  // --- SABATO (SEDUTA B - ORDINE RUOTATO & POST-PALLAVOLO) ---
-  sab: {
-    id: 'warmup_seduta_b_sab',
-    routineDayKey: 'sab',
-    sessionType: 'B',
-    routineTitle: 'Seduta B (Si apre col Military; Hip thrust per ultimo)',
-    openingExercise: 'Military Press & Trazioni',
-    durationLabel: "5' base + 6-8' specifico",
-    commonBase: {
-      cardio: "2' di vogatore facile o corda (oppure Air bike, SkiErg, Tapis roulant)",
-      mobilityCircuits: '2 giri completi senza pausa:',
-      exercises: COMMON_BASE_EXERCISES
-    },
-    specificBlock: {
-      title: 'Blocco specifico: Seduta B Sabato (Apertura Military Press)',
-      focus: 'Spalle, trazioni e protezione gambe post-pallavolo',
-      exercises: [
-        {
-          name: 'Band pull-apart + Passaggi di spalla con elastico',
-          repsOrTime: '2×15 pull-apart + 1×12 passaggi',
-          notes: 'Apertura con Military press: deltoidi caldi e mobilità toracica.'
-        },
-        {
-          name: 'Dead hang alla sbarra + Scap pull-up',
-          repsOrTime: '2×20" hang + 1×8 scap pull-up',
-          notes: 'Decompressione discale e presa salda.'
-        },
-        {
-          name: 'Glute bridge con pausa di 2"',
+          name: '4. Glute bridge con pausa di 2"',
           repsOrTime: '2 serie × 10 rip',
-          notes: 'Prepara l\'hip thrust che oggi viene eseguito per ultimo.'
+          notes: 'Prepara l\'hip thrust con contrazione isometrica al picco.'
         },
         {
-          name: 'Dead bug a terra',
-          repsOrTime: '1 serie × 8 per lato',
-          notes: 'Core attivo per stabilizzare la colonna.'
-        },
-        {
-          name: 'Rampa military press',
+          name: '5. Rampa military press',
           repsOrTime: 'Bilanciere vuoto ×8, 50% ×5, 70% ×3',
           notes: 'Poi le 4 serie vere da 5 colpi strict in piedi.',
           isRamp: true
         },
         {
-          name: 'Avvicinamento trazioni',
-          repsOrTime: '3 reps facilitate (elastico), 3 a corpo libero',
-          notes: 'Poi le 4 serie vere (o zavorrate se a 4×8 corpo libero).'
-        },
-        {
-          name: 'Rampa hip thrust',
-          repsOrTime: 'Bilanciere vuoto ×10, 50% ×5, 70% ×3',
-          notes: 'Eseguito per ultimo: se vieni da pallavolo, mantieni il carico più leggero (-20-25%).',
+          name: '6. Trazioni & Hip thrust avvicinamento',
+          repsOrTime: 'Trazioni: 3 facilitate (elastico), 3 pulite • Hip thrust: bilanciere vuoto ×10, 50% ×5, 70% ×3',
+          notes: 'Poi parti con le serie vere del programma.',
           isRamp: true
         }
       ],
@@ -378,9 +313,74 @@ export const WARMUP_PROTOCOLS: Record<string, WarmupProtocol> = {
       rampGuides: [RAMP_MILITARY, RAMP_HIP_THRUST]
     },
     specialRules: [
-      'REGOLA PALLAVOLO (Venerdì): se hai giocato a pallavolo, AGGIUNGI SUBITO AL RISCALDAMENTO 2×10 alzate sul tallone (polpacci) e 2×10 abduzioni d\'anca con elastico per proteggere caviglie e ginocchia.',
-      'Nel workout post-pallavolo: carichi più leggeri su hip thrust (-20-25%) e goblet squat con pausa.',
-      'Ogni nuova coppia: prima serie del fondamentale leggera (~60%), poi le 4 vere.'
+      'Ordine Martedì: B1 - B2 - B3 (Military press, poi trazioni, poi hip thrust).',
+      'Ogni nuova coppia: prima serie del fondamentale leggera (~60%), poi le 4 vere. Non rifare tutto il riscaldamento.',
+      'Zona lombare rigida: 2 giri in più di glute bridge e dead bug prima di hip thrust o farmer carry.'
+    ]
+  },
+
+  // --- SABATO (SEDUTA B - ORDINE RUOTATO: B2 - B1 - B3) ---
+  sab: {
+    id: 'warmup_seduta_b_sab',
+    routineDayKey: 'sab',
+    sessionType: 'B',
+    routineTitle: 'Seduta B (Apri con le Trazioni; Hip thrust per ultimo)',
+    openingExercise: 'Trazioni alla sbarra & Military Press',
+    durationLabel: "5' base + 6-8' specifico",
+    commonBase: {
+      cardio: "2' di vogatore facile o corda",
+      mobilityCircuits: '2 giri: 8 cat-cow, 4 world\'s greatest stretch per lato, 10 glute bridge, 10 scap push-up',
+      exercises: COMMON_BASE_EXERCISES
+    },
+    specificBlock: {
+      title: 'Blocco specifico: Seduta B Sabato (B2 Trazioni - B1 Military - B3 Hip thrust)',
+      focus: 'Apertura trazioni, spalle e protezione gambe post-pallavolo',
+      exercises: [
+        {
+          name: '1. Band pull-apart + Passaggi di spalla con elastico',
+          repsOrTime: '2×15 pull-apart + 1×12 passaggi',
+          notes: 'Mobilità scapolare e toracica.'
+        },
+        {
+          name: '2. Air squat con fermo di 3"',
+          repsOrTime: '1 serie × 10 rip',
+          notes: 'Prepara la super serie metabolica (o leg curl se zero impatto).'
+        },
+        {
+          name: '3. Dead hang + Scap pull-up',
+          repsOrTime: '2×20" hang + 1×8 scap pull-up',
+          notes: 'Oggi apri con B2 (Trazioni alla sbarra): dorsale caldo e pronto.'
+        },
+        {
+          name: '4. Glute bridge con pausa di 2"',
+          repsOrTime: '2 serie × 10 rip',
+          notes: 'Prepara l\'hip thrust che oggi viene svolto per ultimo.'
+        },
+        {
+          name: '5. Trazioni: avvicinamento specifico',
+          repsOrTime: '3 facilitate (elastico), 3 pulite a corpo libero',
+          notes: 'Poi le 4 serie vere da 5 colpi (apertura della seduta).'
+        },
+        {
+          name: '6. Rampa military press',
+          repsOrTime: 'Bilanciere vuoto ×8, 50% ×5, 70% ×3',
+          notes: 'Poi le 4 serie vere da 5 colpi strict.',
+          isRamp: true
+        },
+        {
+          name: '7. Rampa hip thrust (eseguito per ultimo)',
+          repsOrTime: 'Bilanciere vuoto ×10, 50% ×5, 70% ×3',
+          notes: 'Se vieni da pallavolo al venerdì, mantieni il carico più leggero (-20-25%).',
+          isRamp: true
+        }
+      ],
+      rampGuide: RAMP_MILITARY,
+      rampGuides: [RAMP_MILITARY, RAMP_HIP_THRUST]
+    },
+    specialRules: [
+      'Ordine Sabato: B2 - B1 - B3 (apri con le trazioni; hip thrust per ultimo, più leggero se vieni da pallavolo).',
+      'SABATO DOPO PALLAVOLO: aggiungi subito 2×10 abduzioni d\'anca con elastico e 2×10 alzate sul tallone per proteggere caviglie e ginocchia.',
+      'Metcon post-pallavolo a basso impatto: camminata in salita su tapis (o air bike), niente cerniere né impatto.'
     ]
   },
 
@@ -423,9 +423,9 @@ export const WARMUP_PROTOCOLS: Record<string, WarmupProtocol> = {
       ]
     },
     specialRules: [
-      'Se venerdì giochi a pallavolo: la seduta braccia/cardio salta e non si recupera!',
-      'Niente cedimento: le braccia hanno già lavorato duramente nei fondamentali.',
-      'Il cardio finale di 25-35\' di vogatore deve restare a ritmo facile e costante (base aerobica per i 2000 m).'
+      'Braccia + cardio solo se non c\'è pallavolo: se hai giocato, la seduta salta e non si recupera!',
+      'Niente cedimento: le braccia lavorano già nei fondamentali (trazioni, panca, military, rematore).',
+      'Cardio finale: 25-35\' di vogatore a ritmo facile e costante (non a tutta, base aerobica per i 2000 m).'
     ]
   }
 };

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useWorkout } from '../context/WorkoutContext';
 import { MetconResultLog, MetconMovementItem } from '../types/workout';
+import { generateRandomMetcon } from '../utils/metconGenerator';
 import {
   X,
   Plus,
@@ -11,7 +12,8 @@ import {
   Sparkles,
   Check,
   Zap,
-  RotateCcw
+  RotateCcw,
+  Dices
 } from 'lucide-react';
 
 interface MetconCustomizerModalProps {
@@ -160,6 +162,17 @@ export const MetconCustomizerModal: React.FC<MetconCustomizerModalProps> = ({
     }
   };
 
+  const handleGenerateRandom = () => {
+    const gen = generateRandomMetcon();
+    setTitle(gen.title);
+    setType(gen.type);
+    setTimeCapMin(gen.durationMin);
+    setTargetRounds(gen.targetRounds || 3);
+    setEmomIntervalSec(gen.emomIntervalSec || 60);
+    setMovements(gen.allMovements);
+    setInstructions(gen.instructions);
+  };
+
   return (
     <div className="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-end sm:items-center justify-center p-0 sm:p-4 animate-in fade-in duration-200">
       <div className="bg-zinc-900 border-t sm:border border-zinc-800 rounded-t-3xl sm:rounded-3xl w-full max-w-lg max-h-[90vh] flex flex-col overflow-hidden shadow-2xl">
@@ -191,11 +204,22 @@ export const MetconCustomizerModal: React.FC<MetconCustomizerModalProps> = ({
         <div className="flex-1 overflow-y-auto p-4 space-y-4">
           {/* Quick presets */}
           <div>
-            <div className="text-[11px] font-bold text-zinc-400 mb-1.5 uppercase tracking-wider flex items-center gap-1">
-              <Sparkles className="w-3.5 h-3.5 text-amber-400" />
-              Template Rapidi Consigliati
+            <div className="text-[11px] font-bold text-zinc-400 mb-1.5 uppercase tracking-wider flex items-center justify-between">
+              <span className="flex items-center gap-1">
+                <Sparkles className="w-3.5 h-3.5 text-amber-400" />
+                Template & Generatore
+              </span>
+              <span className="text-[10px] text-orange-400 font-mono">1 Cardio (Cal) + 2/3 Funz.</span>
             </div>
             <div className="flex gap-2 overflow-x-auto pb-1 no-scrollbar">
+              <button
+                type="button"
+                onClick={handleGenerateRandom}
+                className="px-3 py-1.5 rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-400 hover:to-amber-400 text-zinc-950 text-xs font-black whitespace-nowrap shadow-md flex items-center gap-1 active:scale-95 transition-all"
+              >
+                <Dices className="w-3.5 h-3.5" />
+                <span>🎲 Genera Casuale (9-15')</span>
+              </button>
               <button
                 type="button"
                 onClick={() => applyPreset('pdf_amrap8')}

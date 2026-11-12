@@ -3,6 +3,9 @@ import { useWorkout } from '../context/WorkoutContext';
 import { WorkoutRoutine } from '../types/workout';
 import { RoutineEditorModal } from './RoutineEditorModal';
 import { WarmupModal } from './WarmupModal';
+import { MetconGeneratorModal } from './MetconGeneratorModal';
+import { MetconCustomizerModal } from './MetconCustomizerModal';
+import { MetconResultLog } from '../types/workout';
 import {
   Play,
   Edit3,
@@ -15,7 +18,9 @@ import {
   ChevronRight,
   ShieldCheck,
   AlertCircle,
-  X
+  X,
+  Dices,
+  Shuffle
 } from 'lucide-react';
 
 interface RoutinesViewProps {
@@ -28,12 +33,15 @@ export const RoutinesView: React.FC<RoutinesViewProps> = ({ onStartSession }) =>
     startWorkout,
     resetRoutinesToDefault,
     playedVolleyballFriday,
-    setPlayedVolleyballFriday
+    setPlayedVolleyballFriday,
+    startMetconWorkout
   } = useWorkout();
 
   const [editingRoutine, setEditingRoutine] = useState<WorkoutRoutine | null>(null);
   const [selectedWarmupDayKey, setSelectedWarmupDayKey] = useState<string | null>(null);
   const [showResetRoutinesConfirm, setShowResetRoutinesConfirm] = useState(false);
+  const [showMetconGenerator, setShowMetconGenerator] = useState(false);
+  const [customizingMetcon, setCustomizingMetcon] = useState<MetconResultLog | null>(null);
 
   const handleStartWorkout = (routineId: string) => {
     startWorkout(routineId);
@@ -91,6 +99,41 @@ export const RoutinesView: React.FC<RoutinesViewProps> = ({ onStartSession }) =>
               <div className="w-11 h-6 bg-zinc-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-amber-500"></div>
             </label>
           </div>
+        </div>
+      </div>
+
+      {/* METCON GENERATOR BANNER CARD (1 Cardio a calorie + 2/3 Funzionali, range 9-15 min) */}
+      <div className="bg-gradient-to-br from-orange-950/40 via-zinc-900 to-zinc-900 border border-orange-500/40 rounded-3xl p-4 shadow-xl relative overflow-hidden">
+        <div className="flex items-start justify-between gap-3">
+          <div className="flex items-start gap-3 min-w-0">
+            <div className="w-10 h-10 rounded-2xl bg-orange-500/20 text-orange-400 flex items-center justify-center border border-orange-500/30 shrink-0">
+              <Flame className="w-5 h-5 fill-current" />
+            </div>
+            <div className="min-w-0">
+              <div className="flex items-center gap-1.5 flex-wrap">
+                <span className="text-xs font-black uppercase tracking-wider text-orange-400">
+                  Generatore Metcon Casuale
+                </span>
+                <span className="px-1.5 py-0.2 text-[9px] font-black rounded bg-orange-500/20 text-orange-300 border border-orange-500/30">
+                  9 - 15 MIN
+                </span>
+              </div>
+              <p className="text-xs text-zinc-300 mt-1 leading-snug">
+                1 Cardio con target calorie + 2 o 3 esercizi funzionali a rotazione (AMRAP, For Time o EMOM).
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div className="mt-3.5 flex gap-2">
+          <button
+            type="button"
+            onClick={() => setShowMetconGenerator(true)}
+            className="w-full py-3 px-4 bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-400 hover:to-amber-400 active:scale-98 text-zinc-950 font-black text-xs uppercase tracking-wider rounded-2xl shadow-lg shadow-orange-500/25 flex items-center justify-center gap-2 transition-all"
+          >
+            <Dices className="w-4 h-4" />
+            <span>🎲 Genera Metcon Casuale (9-15')</span>
+          </button>
         </div>
       </div>
 
@@ -173,7 +216,7 @@ export const RoutinesView: React.FC<RoutinesViewProps> = ({ onStartSession }) =>
                           <Flame className="w-3.5 h-3.5 shrink-0" />
                           {routine.metcon.title}
                         </span>
-                        <span className="text-[10px] text-zinc-400">Cap 8-10'</span>
+                        <span className="text-[10px] text-zinc-400">Cap 9-10'</span>
                       </div>
                     )}
 
@@ -245,6 +288,32 @@ export const RoutinesView: React.FC<RoutinesViewProps> = ({ onStartSession }) =>
           isOpen={true}
           onClose={() => setSelectedWarmupDayKey(null)}
           dayKey={selectedWarmupDayKey as any}
+        />
+      )}
+
+      {/* Metcon Generator Modal (1 cardio con calorie + 2/3 funzionali, 9-15 min) */}
+      {showMetconGenerator && (
+        <MetconGeneratorModal
+          isOpen={true}
+          onClose={() => setShowMetconGenerator(false)}
+          onStartSession={() => onStartSession()}
+          onCustomize={metconLog => {
+            setCustomizingMetcon(metconLog);
+          }}
+        />
+      )}
+
+      {/* Metcon Customizer Modal (if user wants to fine-tune movements or reps) */}
+      {customizingMetcon && (
+        <MetconCustomizerModal
+          isOpen={true}
+          currentMetcon={customizingMetcon}
+          onClose={() => setCustomizingMetcon(null)}
+          onApply={finalMetcon => {
+            startMetconWorkout(finalMetcon);
+            setCustomizingMetcon(null);
+            onStartSession();
+          }}
         />
       )}
 

@@ -62,11 +62,13 @@ export function evaluateProgression(
 
     const allTargetCompleted = validSets.length >= 4 && validSets.every(s => s.actualReps >= (s.targetReps || 5));
     if (allTargetCompleted) {
-      const step = isHipThrust ? 5.0 : 2.5;
+      const step = variant.suggestedStepKg || (isHipThrust ? 5.0 : 2.5);
       return {
         type: 'increase',
         badgeText: `🔥 Progressione +${step} kg`,
-        message: `Hai chiuso tutti i 4×5 puliti con margine! Prossima seduta: carica ${currentWeightKg + step} kg (+${step} kg).`,
+        message: variant.progressionRule
+          ? `${variant.progressionRule} (Prossima seduta: carica ${currentWeightKg + step} kg)`
+          : `Hai chiuso tutti i 4×5 puliti con margine! Prossima seduta: carica ${currentWeightKg + step} kg (+${step} kg).`,
         suggestedWeightChangeKg: step,
         newSuggestedWeightKg: currentWeightKg + step
       };
@@ -81,7 +83,9 @@ export function evaluateProgression(
       return {
         type: 'increase',
         badgeText: '💪 Livello Superato',
-        message: `Hai chiuso 4×12 completi! Ottimo stimolo metabolico: passa al manubrio/KB successivo (+${step} kg).`,
+        message: variant.progressionRule
+          ? `${variant.progressionRule} (+${step} kg)`
+          : `Hai chiuso 4×12 completi! Ottimo stimolo metabolico: passa al manubrio/KB successivo (+${step} kg).`,
         suggestedWeightChangeKg: step,
         newSuggestedWeightKg: currentWeightKg + step
       };
@@ -96,7 +100,24 @@ export function evaluateProgression(
       return {
         type: 'increase',
         badgeText: `✨ Obiettivo Raggiunto (+${step} kg)`,
-        message: `Serie completate con margine. Puoi aumentare di ${step} kg al prossimo allenamento.`,
+        message: variant.progressionRule
+          ? `${variant.progressionRule} (+${step} kg)`
+          : `Serie completate con margine. Puoi aumentare di ${step} kg al prossimo allenamento.`,
+        suggestedWeightChangeKg: step,
+        newSuggestedWeightKg: currentWeightKg + step
+      };
+    }
+  }
+
+  // Custom or functional exercise progression
+  if (variant.progressionRule && (variant.suggestedStepKg || 0) > 0) {
+    const allHit = validSets.length >= 3 && validSets.every(s => s.actualReps >= (s.targetReps || 5));
+    if (allHit) {
+      const step = variant.suggestedStepKg || 2.5;
+      return {
+        type: 'increase',
+        badgeText: `🔥 Progressione +${step} kg`,
+        message: `${variant.progressionRule} (Prossimo target: ${currentWeightKg + step} kg)`,
         suggestedWeightChangeKg: step,
         newSuggestedWeightKg: currentWeightKg + step
       };
@@ -106,7 +127,9 @@ export function evaluateProgression(
   return {
     type: 'maintain',
     badgeText: 'Mantenimento Carico',
-    message: 'Continua a consolidare la tecnica e la velocità delle ripetizioni con questo carico prima di salire.',
+    message: variant.progressionRule
+      ? `Regola: ${variant.progressionRule}`
+      : 'Continua a consolidare la tecnica e la velocità delle ripetizioni con questo carico prima di salire.',
     suggestedWeightChangeKg: 0,
     newSuggestedWeightKg: currentWeightKg
   };

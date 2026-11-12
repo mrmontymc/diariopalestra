@@ -21,20 +21,20 @@ export const SUPER_SET_A1: SuperSetPair = {
   },
   secondary: {
     variantId: 'push_press_manubri',
-    label: 'Push press con manubri (kb, alternato)',
+    label: 'Push press con manubri leggeri (kb, alternato)',
     targetSets: 4,
-    targetReps: '4×10',
-    targetRepsNum: 10,
+    targetReps: '4×15',
+    targetRepsNum: 15,
     type: 'metabolico'
   },
-  notes: 'Fondamentale 4×5 (margine 1-2 rip) e subito il metabolico 4×10. Poi riposo 90". Esempio: squat 5 reps (40") + push press 10 reps (40") + riposo 90" = ~2\'50" a giro, ~11\' per coppia.'
+  notes: 'Fondamentale 4×5 (margine 1-2 rip) e subito il metabolico 4×15 leggeri (RPE 7-8). Poi riposo 90". Push press leggero con tecnica pulita.'
 };
 
-// --- SEDUTA A: SLOT 2 (LUNEDÌ: STACCO CON MANUBRI) ---
-export const SUPER_SET_A2_LUN: SuperSetPair = {
-  id: 'pair_A2_lun',
+// --- SEDUTA A: SLOT 2 (CANONICO DAL NUOVO PDF: PANCA PIANA + CALF RAISE) ---
+export const SUPER_SET_A2: SuperSetPair = {
+  id: 'pair_A2',
   code: 'A2',
-  title: 'Super serie A2 (Petto / Cerniera d\'anca - Lunedì)',
+  title: 'Super serie A2 (Petto / Polpacci)',
   targetRounds: 4,
   restBetweenRoundsSec: 90, // 90" dopo panca
   primary: {
@@ -46,40 +46,14 @@ export const SUPER_SET_A2_LUN: SuperSetPair = {
     type: 'fondamentale'
   },
   secondary: {
-    variantId: 'stacco_manubri',
-    label: 'Stacco con manubri (Lunedì)',
+    variantId: 'calf_raise_manubri',
+    label: 'Calf raise con manubri (a una gamba, seduto)',
     targetSets: 4,
-    targetReps: '4×8-10',
-    targetRepsNum: 9,
+    targetReps: '4×15',
+    targetRepsNum: 15,
     type: 'metabolico'
   },
-  notes: 'Lunedì: Stacco con manubri a carico moderato, schiena neutra. Se la zona lombare protesta, passa a goblet squat pesante o saltalo. Riposo 90".'
-};
-
-// --- SEDUTA A: SLOT 2 (GIOVEDÌ: KB SWING) ---
-export const SUPER_SET_A2_GIO: SuperSetPair = {
-  id: 'pair_A2_gio',
-  code: 'A2',
-  title: 'Super serie A2 (Petto / Cerniera balistica - Giovedì)',
-  targetRounds: 4,
-  restBetweenRoundsSec: 90, // 90" dopo panca
-  primary: {
-    variantId: 'panca_piana',
-    label: 'Panca piana',
-    targetSets: 4,
-    targetReps: '4×5',
-    targetRepsNum: 5,
-    type: 'fondamentale'
-  },
-  secondary: {
-    variantId: 'kb_swing',
-    label: 'KB swing (2 mani, 1 mano) (Giovedì)',
-    targetSets: 4,
-    targetReps: '4×10-12',
-    targetRepsNum: 11,
-    type: 'metabolico'
-  },
-  notes: 'Giovedì: KB swing esplosivo a 2 mani o 1 mano. Cerniera pura. Se i lombari protestano, sostituisci con Goblet squat pesante. Riposo 90".'
+  notes: 'Panca piana 4×5 (margine 1-2 rip) e subito calf raise 4×15 con manubri (in piedi, a una gamba o seduto soleo con pausa 2" in alto). Poi riposo 90".'
 };
 
 // --- SEDUTA A: SLOT 3 ---
@@ -101,44 +75,18 @@ export const SUPER_SET_A3: SuperSetPair = {
     variantId: 'affondi_indietro_manubri',
     label: 'Affondi indietro con manubri (camminati, bulgaro, step-up)',
     targetSets: 4,
-    targetReps: '4×8-10 per lato',
-    targetRepsNum: 9,
+    targetReps: '4×10 per lato',
+    targetRepsNum: 10,
     type: 'metabolico'
   },
-  notes: 'Rematore 4×8 su panca inclinata con manubri o T-bar (alternativa: pulley seduto). Affondi indietro 4×8-10 per lato. Riposo 60-75".'
+  notes: 'Rematore petto poggiato o T-bar 4×8 (alternative: pulley seduto. No lat machine: è verticale). Subito affondi indietro con manubri 4×10 per lato. Riposo 60-75".'
 };
 
 // --- SEDUTA B: SLOT 1 ---
 export const SUPER_SET_B1: SuperSetPair = {
   id: 'pair_B1',
   code: 'B1',
-  title: 'Super serie B1 (Glutei / Spinta orizzontale)',
-  targetRounds: 4,
-  restBetweenRoundsSec: 90, // 90" dopo hip thrust
-  primary: {
-    variantId: 'hip_thrust',
-    label: 'Hip thrust',
-    targetSets: 4,
-    targetReps: '4×6-8',
-    targetRepsNum: 7,
-    type: 'fondamentale'
-  },
-  secondary: {
-    variantId: 'push_up',
-    label: 'Push-up (piedi rialzati, tempo, zavorrato)',
-    targetSets: 4,
-    targetReps: '4×10-15',
-    targetRepsNum: 12,
-    type: 'metabolico'
-  },
-  notes: 'Hip thrust 4×6-8 con blocco al picco + push-up 4×10-15. Riposo 90". Dopo pallavolo al venerdì: carichi più leggeri sull\'hip thrust.'
-};
-
-// --- SEDUTA B: SLOT 2 ---
-export const SUPER_SET_B2: SuperSetPair = {
-  id: 'pair_B2',
-  code: 'B2',
-  title: 'Super serie B2 (Spalle verticali / Squat leggero)',
+  title: 'Super serie B1 (Spalle verticali / Squat leggero)',
   targetRounds: 4,
   restBetweenRoundsSec: 90, // 90" dopo military
   primary: {
@@ -150,21 +98,21 @@ export const SUPER_SET_B2: SuperSetPair = {
     type: 'fondamentale'
   },
   secondary: {
-    variantId: 'goblet_squat_pausa',
-    label: 'Goblet squat con pausa (front squat kb, cossack)',
+    variantId: 'air_squat_fermo',
+    label: 'Air squat con fermo in buca di 3-5" (goblet con kb)',
     targetSets: 4,
-    targetReps: '4×10',
-    targetRepsNum: 10,
+    targetReps: '4×15',
+    targetRepsNum: 15,
     type: 'metabolico'
   },
-  notes: 'Military press 4×5 strict (in piedi, glutei e addome serrati, no gambe) + goblet squat con pausa di 2-3" in buca 4×10. Riposo 90".'
+  notes: 'Military press 4×5 strict in piedi e subito air squat con fermo in buca di 3-5" 4×15 (goblet con kb se facile. Con macchine: mar leg extension, sab leg curl). Poi riposo 90".'
 };
 
-// --- SEDUTA B: SLOT 3 ---
-export const SUPER_SET_B3: SuperSetPair = {
-  id: 'pair_B3',
-  code: 'B3',
-  title: 'Super serie B3 (Trazioni verticali / Carry & Core)',
+// --- SEDUTA B: SLOT 2 ---
+export const SUPER_SET_B2: SuperSetPair = {
+  id: 'pair_B2',
+  code: 'B2',
+  title: 'Super serie B2 (Trazioni verticali / Spinta orizzontale)',
   targetRounds: 4,
   restBetweenRoundsSec: 75, // 60-75" dopo trazioni
   primary: {
@@ -176,14 +124,40 @@ export const SUPER_SET_B3: SuperSetPair = {
     type: 'fondamentale'
   },
   secondary: {
-    variantId: 'farmer_walk',
-    label: 'Farmer walk (suitcase, rack walk)',
+    variantId: 'push_up',
+    label: 'Push-up (piedi rialzati, tempo, zavorrato)',
     targetSets: 4,
-    targetReps: '4×40 m',
-    targetRepsNum: 40,
+    targetReps: '4×15',
+    targetRepsNum: 15,
     type: 'metabolico'
   },
-  notes: 'Trazioni 4×5 (se arrivi a 4×8 a corpo libero, usa zavorra). Farmer walk 4×40 m con manubri o KB. Riposo 60-75".'
+  notes: 'Trazioni 4×5 pulite fino al mento sopra la sbarra e subito push-up 4×15 (standard, piedi rialzati, tempo, deficit). Poi riposo 60-75".'
+};
+
+// --- SEDUTA B: SLOT 3 ---
+export const SUPER_SET_B3: SuperSetPair = {
+  id: 'pair_B3',
+  code: 'B3',
+  title: 'Super serie B3 (Glutei / Trazione orizzontale moderata)',
+  targetRounds: 4,
+  restBetweenRoundsSec: 90, // 90" dopo hip thrust
+  primary: {
+    variantId: 'hip_thrust',
+    label: 'Hip thrust',
+    targetSets: 4,
+    targetReps: '4×6-8',
+    targetRepsNum: 7,
+    type: 'fondamentale'
+  },
+  secondary: {
+    variantId: 'rematore_manubri_petto',
+    label: 'Rematore con manubri, petto poggiato (T-bar, pulley)',
+    targetSets: 4,
+    targetReps: '4×15',
+    targetRepsNum: 15,
+    type: 'metabolico'
+  },
+  notes: 'Hip thrust 4×6-8 con blocco al picco + Rematore con manubri petto poggiato 4×15 (RPE 7). Il martedì esegui il rematore con manubri moderato (giorno dopo il rematore pesante). Poi riposo 90".'
 };
 
 // --- SUPER SERIE BRACCIA (VENERDÌ SENZA PALLAVOLO) ---
@@ -263,7 +237,7 @@ export const ARMS_PAIR_3: SuperSetPair = {
 };
 
 // ============================================================================
-// SCHEDA SETTIMANALE CANONICA (4 FULL BODY A/B + BRACCIA/CARDIO)
+// SCHEDA SETTIMANALE CANONICA (4 FULL BODY A/B + METCON CALORIE + BRACCIA/CARDIO)
 // ============================================================================
 export const DEFAULT_WEEKLY_ROUTINES: WorkoutRoutine[] = [
   // 1. LUNEDÌ - SEDUTA A
@@ -272,31 +246,33 @@ export const DEFAULT_WEEKLY_ROUTINES: WorkoutRoutine[] = [
     dayLabel: 'Lunedì',
     dayKey: 'lun',
     title: 'Seduta A (Full body)',
-    subtitle: 'Squat, panca, rematore • Stacco con manubri in slot 2',
-    orderCode: 'A1 - A2 - A3 + Finisher opzionale',
-    description: 'A1: Back squat (4×5) + Push press (4×10) • A2: Panca piana (4×5) + Stacco con manubri (4×8-10) • A3: Rematore petto poggiato (4×8) + Affondi indietro (4×8-10/lato).',
+    subtitle: 'Squat, panca, rematore • Metcon: Air bike + swing',
+    orderCode: 'A1 - A2 - A3',
+    description: 'A1: Back squat (4×5) + Push press leggeri (4×15) • A2: Panca piana (4×5) + Calf raise manubri (4×15) • A3: Rematore petto poggiato (4×8) + Affondi indietro (4×10/lato).',
     superSets: [
       { ...SUPER_SET_A1, id: 'fb_a_lun_pair_A1' },
-      { ...SUPER_SET_A2_LUN, id: 'fb_a_lun_pair_A2' },
+      { ...SUPER_SET_A2, id: 'fb_a_lun_pair_A2' },
       { ...SUPER_SET_A3, id: 'fb_a_lun_pair_A3' }
     ],
     metcon: {
-      id: 'finisher_seduta_a_amrap6',
-      title: 'Finisher opzionale: AMRAP 6\'',
-      type: 'amrap',
-      durationSec: 360,
+      id: 'metcon_lun_airbike_swing',
+      title: 'Metcon finale: Air bike + swing',
+      type: 'rounds_cap',
+      durationSec: 540,
+      targetRounds: 3,
+      timeCapSec: 600,
       movements: [
-        { name: 'Goblet squat', repsOrDist: '10 ripetizioni' },
-        { name: 'Push-up', repsOrDist: '8 ripetizioni' },
-        { name: 'Sit-up', repsOrDist: '10 ripetizioni' }
+        { name: 'Air bike', repsOrDist: '12 cal', caloriesKcal: 12 },
+        { name: 'KB swing', repsOrDist: '15 rip', repsNum: 15 },
+        { name: 'V-up', repsOrDist: '10 rip', repsNum: 10 }
       ],
-      instructions: 'Solo se i fondamentali di giornata sono stati completati puliti. 10 goblet squat, 8 push-up, 10 sit-up: massimo numero di giri in 6 minuti.'
+      instructions: '3 giri a tempo (cap 9-10\', RPE 7-8): 12 cal air bike, 15 KB swing, 10 V-up. Se serve tempo, riduci a 2 giri.'
     },
     rulesNotes: [
       'Ordine Lunedì: A1 - A2 - A3.',
       'Fondamentale: 4×5 (o 4×8 per rematore), margine 1-2 ripetizioni.',
-      'Metabolico: subito dopo il fondamentale, poi recupero 90" (60-75" per rematore).',
-      'Progressione: chiudi 4×5 puliti -> +2,5 kg la volta successiva.'
+      'Metabolico: subito dopo il fondamentale (RPE 7-8), poi recupero 90" (60-75" dopo rematore).',
+      'Metcon finale: 3 giri a tempo (cap 9-10\'), cardio a calorie + 2-3 funzionali, RPE 7-8.'
     ]
   },
 
@@ -306,32 +282,33 @@ export const DEFAULT_WEEKLY_ROUTINES: WorkoutRoutine[] = [
     dayLabel: 'Martedì',
     dayKey: 'mar',
     title: 'Seduta B (Full body)',
-    subtitle: 'Hip thrust, military, trazioni • Ordine standard',
-    orderCode: 'B1 - B2 - B3 + Finisher opzionale',
-    description: 'B1: Hip thrust (4×6-8) + Push-up (4×10-15) • B2: Military press (4×5) + Goblet squat con pausa (4×10) • B3: Trazioni alla sbarra (4×5) + Farmer walk (4×40 m).',
+    subtitle: 'Military, trazioni, hip thrust • Metcon: Rower + carry',
+    orderCode: 'B1 - B2 - B3',
+    description: 'B1: Military press (4×5) + Air squat con fermo 3-5" (4×15) • B2: Trazioni alla sbarra (4×5) + Push-up (4×15) • B3: Hip thrust (4×6-8) + Rematore con manubri moderato (4×15).',
     superSets: [
       { ...SUPER_SET_B1, id: 'fb_b_mar_pair_B1' },
       { ...SUPER_SET_B2, id: 'fb_b_mar_pair_B2' },
       { ...SUPER_SET_B3, id: 'fb_b_mar_pair_B3' }
     ],
     metcon: {
-      id: 'finisher_seduta_b_3rounds_cap8',
-      title: 'Finisher opzionale: 3 giri a tempo (cap 8\')',
+      id: 'metcon_mar_rower_carry',
+      title: 'Metcon finale: Rower + carry',
       type: 'rounds_cap',
-      durationSec: 480,
+      durationSec: 540,
       targetRounds: 3,
-      timeCapSec: 480,
+      timeCapSec: 600,
       movements: [
-        { name: 'Vogatore', repsOrDist: '250 m' },
-        { name: 'Knee raise alla sbarra', repsOrDist: '10 ripetizioni' }
+        { name: 'Vogatore (RowErg)', repsOrDist: '12-15 cal', caloriesKcal: 14 },
+        { name: 'Farmer walk con manubri', repsOrDist: '40 m', distanceMeters: 40 },
+        { name: 'Sit-up a terra', repsOrDist: '10 rip', repsNum: 10 }
       ],
-      instructions: 'Solo se le trazioni sono andate bene. 3 giri a tempo (time cap 8 minuti): 250 m di vogatore + 10 knee raise alla sbarra.'
+      instructions: '3 giri a tempo (cap 9-10\', RPE 7-8): 12-15 cal rower, 40 m farmer walk, 10 sit-up. Rematore a manubri del martedì moderato (giorno dopo il rematore pesante).'
     },
     rulesNotes: [
       'Ordine Martedì: B1 - B2 - B3.',
-      'Hip thrust: 4×6-8 con blocco al picco.',
-      'Military press: 4×5 strict in piedi.',
-      'Trazioni: 4×5 pulite, mento sopra la sbarra.'
+      'Military press: 4×5 strict in piedi, no gambe.',
+      'Air squat: fermo di 3-5" in buca (con le macchine: martedì leg extension).',
+      'Rematore con manubri petto poggiato: carico moderato a RPE 7, il giorno dopo il rematore pesante.'
     ]
   },
 
@@ -358,30 +335,33 @@ export const DEFAULT_WEEKLY_ROUTINES: WorkoutRoutine[] = [
     dayLabel: 'Giovedì',
     dayKey: 'gio',
     title: 'Seduta A (Ordine ruotato)',
-    subtitle: 'Rematore, squat, panca • KB swing in slot 2',
-    orderCode: 'A3 - A1 - A2 + Finisher opzionale',
-    description: 'Rotazione intelligente: A3: Rematore petto poggiato (4×8) + Affondi indietro (4×8-10/lato) [a schiena fresca] • A1: Back squat (4×5) + Push press (4×10) • A2: Panca piana (4×5) + KB swing (4×10-12).',
+    subtitle: 'Rematore, squat, panca • Metcon: Ski erg + stacco',
+    orderCode: 'A3 - A1 - A2',
+    description: 'Ordine ruotato: A3: Rematore petto poggiato (4×8) + Affondi indietro (4×10/lato) [a schiena fresca] • A1: Back squat (4×5) + Push press leggeri (4×15) • A2: Panca piana (4×5) + Calf raise manubri (4×15).',
     superSets: [
       { ...SUPER_SET_A3, id: 'fb_a_gio_pair_A3' },
       { ...SUPER_SET_A1, id: 'fb_a_gio_pair_A1' },
-      { ...SUPER_SET_A2_GIO, id: 'fb_a_gio_pair_A2' }
+      { ...SUPER_SET_A2, id: 'fb_a_gio_pair_A2' }
     ],
     metcon: {
-      id: 'finisher_seduta_a_gio_amrap6',
-      title: 'Finisher opzionale: AMRAP 6\'',
-      type: 'amrap',
-      durationSec: 360,
+      id: 'metcon_gio_skierg_stacco',
+      title: 'Metcon finale: Ski erg + stacco con manubri',
+      type: 'rounds_cap',
+      durationSec: 540,
+      targetRounds: 3,
+      timeCapSec: 600,
       movements: [
-        { name: 'Goblet squat', repsOrDist: '10 ripetizioni' },
-        { name: 'Push-up', repsOrDist: '8 ripetizioni' },
-        { name: 'Sit-up', repsOrDist: '10 ripetizioni' }
+        { name: 'SkiErg Concept2', repsOrDist: '10 cal', caloriesKcal: 10 },
+        { name: 'Stacco con manubri (moderati, schiena neutra)', repsOrDist: '10 rip', repsNum: 10 },
+        { name: 'Farmer walk con manubri', repsOrDist: '40 m', distanceMeters: 40 }
       ],
-      instructions: 'Solo se i fondamentali di giornata sono stati completati puliti. 10 goblet squat, 8 push-up, 10 sit-up per 6 minuti.'
+      instructions: '3 giri a tempo (cap 9-10\', RPE 7-8): 10 cal ski erg, 10 stacco con manubri (carico moderato, schiena rigorosamente neutra), 40 m farmer walk.'
     },
     rulesNotes: [
       'Ordine Giovedì: A3 - A1 - A2 (parti col rematore, a schiena fresca).',
-      'In slot 2: KB swing (2 mani, 1 mano) al posto dello stacco.',
-      'Recupero 90" dopo panca e squat; 60-75" dopo il rematore.'
+      'Rematore 4×8: alternativa T-bar o pulley seduto (no lat machine).',
+      'Recupero 90" dopo squat e panca; 60-75" dopo il rematore.',
+      'Cerniere (stacco con manubri e swing): previste solo nei metcon di lunedì e giovedì; mai dopo pallavolo.'
     ]
   },
 
@@ -393,14 +373,14 @@ export const DEFAULT_WEEKLY_ROUTINES: WorkoutRoutine[] = [
     title: 'Pallavolo / Braccia + cardio',
     subtitle: 'Braccia + cardio solo se non c\'è pallavolo',
     orderCode: 'Pallavolo OPPURE Super serie braccia + Vogatore',
-    description: 'Super serie antagoniste per braccia senza arrivare a cedimento + 25-35 min di vogatore costante a ritmo aerobico (base per i 2000 m). Se c\'è pallavolo, la seduta salta e NON si recupera!',
+    description: 'Super serie antagoniste per braccia senza cedimento + 25-35\' di vogatore costante a ritmo facile aerobico (base per i 2000 m). Se c\'è pallavolo, la seduta salta e NON si recupera!',
     superSets: [
       { ...ARMS_PAIR_1, id: 'arms_pair_1_ven' },
       { ...ARMS_PAIR_2, id: 'arms_pair_2_ven' },
       { ...ARMS_PAIR_3, id: 'arms_pair_3_ven' }
     ],
     cardio: {
-      title: 'Cardio finale: 25-35\' di vogatore a ritmo facile e costante (o Air bike / SkiErg / Tapis)',
+      title: 'Cardio finale: 25-35\' di vogatore a ritmo facile e costante',
       equipment: 'vogatore',
       durationMin: 30,
       description: '25-35 minuti a ritmo facile e costante, non a tutta. Base aerobica per l\'obiettivo sui 2000 m.'
@@ -418,31 +398,33 @@ export const DEFAULT_WEEKLY_ROUTINES: WorkoutRoutine[] = [
     dayLabel: 'Sabato',
     dayKey: 'sab',
     title: 'Seduta B (Ordine ruotato)',
-    subtitle: 'Si apre col military • Hip thrust per ultimo',
-    orderCode: 'B2 - B3 - B1 + Finisher opzionale',
-    description: 'Ordine ruotato: B2: Military press (4×5) + Goblet squat con pausa (4×10) • B3: Trazioni alla sbarra (4×5) + Farmer walk (4×40 m) • B1: Hip thrust (4×6-8) + Push-up (4×10-15). Dopo pallavolo: carichi più leggeri su hip thrust e goblet!',
+    subtitle: 'Apri con le trazioni • Hip thrust per ultimo',
+    orderCode: 'B2 - B1 - B3',
+    description: 'Ordine ruotato: B2: Trazioni alla sbarra (4×5) + Push-up (4×15) • B1: Military press (4×5) + Air squat con fermo / leg curl (4×15) • B3: Hip thrust (4×6-8) + Rematore con manubri (4×15). Dopo pallavolo: carichi più leggeri sull\'hip thrust!',
     superSets: [
       { ...SUPER_SET_B2, id: 'fb_b_sab_pair_B2' },
-      { ...SUPER_SET_B3, id: 'fb_b_sab_pair_B3' },
-      { ...SUPER_SET_B1, id: 'fb_b_sab_pair_B1' }
+      { ...SUPER_SET_B1, id: 'fb_b_sab_pair_B1' },
+      { ...SUPER_SET_B3, id: 'fb_b_sab_pair_B3' }
     ],
     metcon: {
-      id: 'finisher_seduta_b_sab_3rounds_cap8',
-      title: 'Finisher opzionale: 3 giri a tempo (cap 8\')',
+      id: 'metcon_sab_tapis_salita',
+      title: 'Metcon finale: Tapis in salita, low impact (dopo pallavolo)',
       type: 'rounds_cap',
-      durationSec: 480,
+      durationSec: 540,
       targetRounds: 3,
-      timeCapSec: 480,
+      timeCapSec: 600,
       movements: [
-        { name: 'Vogatore', repsOrDist: '250 m' },
-        { name: 'Knee raise alla sbarra', repsOrDist: '10 ripetizioni' }
+        { name: 'Tapis in salita a camminata (o air bike facile)', repsOrDist: '10 cal', caloriesKcal: 10 },
+        { name: 'Farmer walk con manubri', repsOrDist: '40 m', distanceMeters: 40 },
+        { name: 'Knee raise alla sbarra', repsOrDist: '10 rip', repsNum: 10 }
       ],
-      instructions: 'Solo se le trazioni sono andate bene. 3 giri a tempo (cap 8 minuti): 250 m di vogatore + 10 knee raise alla sbarra.'
+      instructions: '3 giri a tempo (cap 9-10\', RPE 7-8): 10 cal tapis in salita a camminata (o air bike facile), 40 m farmer walk, 10 knee raise alla sbarra. Niente cerniere né impatto.'
     },
     rulesNotes: [
-      'Ordine Sabato: B2 - B3 - B1 (apri col military; hip thrust per ultimo).',
-      'REGOLA PALLAVOLO: se hai giocato venerdì, usa carichi più leggeri su hip thrust e goblet squat (-20-25%).',
-      'Nel riscaldamento dopo pallavolo: aggiungi 2×10 alzate sul tallone e 2×10 abduzioni d\'anca con elastico.'
+      'Ordine Sabato: B2 - B1 - B3 (apri con le trazioni; hip thrust per ultimo, più leggero se vieni da pallavolo).',
+      'REGOLA PALLAVOLO: se hai giocato venerdì, usa carichi più leggeri su hip thrust e air squat (-20-25%). Con le macchine usa il leg curl (nessun impatto).',
+      'Nel riscaldamento dopo pallavolo: aggiungi 2×10 abduzioni d\'anca con elastico e 2×10 alzate sul tallone.',
+      'Metcon post-pallavolo a basso impatto: camminata in salita (o air bike), niente salti o cerniere pesanti.'
     ]
   },
 
@@ -467,42 +449,42 @@ export const DEFAULT_WEEKLY_ROUTINES: WorkoutRoutine[] = [
 export const GENERAL_GUIDELINES = {
   rulesOfThumb: [
     {
-      title: 'Struttura A/B',
-      content: '4 sedute full body da 3 super serie (A/B alternate) + giorno braccia e cardio. Ogni fondamentale due volte a settimana, ciascuno con il suo metabolico.'
+      title: 'Struttura A/B & Volume',
+      content: '4 sedute full body da 3 super serie (A/B alternate), metcon con cardio a calorie e giorno braccia + cardio. Ogni fondamentale due volte a settimana. Volume settimanale: spinta 32 serie, trazione 24 (rapporto 4:3).'
     },
     {
-      title: 'Come si esegue',
-      content: 'Fondamentale (4×5 con 1-2 rip di margine; rematore 4×8, hip thrust 4×6-8) e subito il metabolico (4×10-12). Poi riposo 60-90" (90" dopo squat, panca, military, hip thrust; 60-75" dopo trazioni e rematore).'
+      title: 'Come si esegue la super serie',
+      content: 'Fondamentale e subito il metabolico, poi riposo. Margine di 1-2 ripetizioni sul fondamentale, RPE 7-8 sul metabolico. Riposo 60-90": 90" dopo squat, panca, military e hip thrust; 60-75" dopo rematore e trazioni. Durata stimata: ~60\' a seduta, metcon incluso. Se serve tempo, riduci il metcon a 2 giri.'
     },
     {
       title: 'Gestione Pallavolo (Venerdì & Sabato)',
-      content: 'Venerdì con pallavolo: la seduta braccia salta e non si recupera. Sabato dopo pallavolo: si apre col military; hip thrust per ultimo con carichi più leggeri (-20-25%) così come sul goblet squat. Al riscaldamento aggiungi 2×10 alzate sul tallone e 2×10 abduzioni con elastico.'
+      content: 'Venerdì con pallavolo: la seduta braccia salta e non si recupera. Se le sedute di pesi non tengono, salta anche questa. Sabato dopo pallavolo: apri con le trazioni (B2 - B1 - B3); hip thrust per ultimo con carichi più leggeri. Al riscaldamento aggiungi 2×10 abduzioni con elastico e 2×10 alzate sul tallone.'
     },
     {
       title: 'Zona lombare rigida',
-      content: 'Se la zona lombare protesta: nello stacco con manubri passa a goblet squat pesante o saltalo. Al riscaldamento fai 2 giri in più di glute bridge e dead bug prima di squat, stacco o swing.'
+      content: 'Se la zona lombare è rigida: 2 giri in più di glute bridge e dead bug prima di squat, hip thrust o swing. Nello stacco con manubri passa a goblet squat pesante o saltalo.'
     },
     {
-      title: 'Regole delle varianti',
-      content: 'Cambia ogni 3-4 settimane una sola variante nuova per volta. Si cambia l\'esecuzione, non il pattern (fondamentale e rematore restano invariati nelle prime 8 settimane, così i progressi si leggono chiaramente).'
+      title: 'Regole delle varianti (Pagina 5 PDF)',
+      content: 'Cambia ogni 3-4 settimane una sola variante nuova per volta (si cambia l\'esecuzione, non il pattern). Fondamentali e rematore (petto poggiato o T-bar) non cambiano nelle prime 8 settimane. Cerniere (swing, stacco) solo nei metcon di lunedì e giovedì; mai dopo pallavolo. Leg extension e leg curl: mai nella stessa seduta, e leg curl mai abbinato all\'hip thrust.'
     }
   ],
   progressionRules: [
     {
       group: 'Fondamentali (4×5 / 4×8 / 4×6-8)',
-      rule: 'Chiudi tutti i 4×5 puliti (4×8 per rematore, 4×6-8 per hip thrust) -> aggiungi 2,5 kg nella seduta successiva.'
+      rule: 'Chiudi tutti i 4×5 puliti con 1-2 rip di margine (rematore 4×8 e hip thrust 4×6-8: stessa regola sul tetto) -> aggiungi 2,5 kg nella seduta successiva.'
     },
     {
-      group: 'Metabolici (4×10-12)',
-      rule: 'Chiudi il tetto di ripetizioni con forma solida -> passa al carico successivo o alla variante più dura.'
+      group: 'Metabolici (4×15 / 4×10 per lato)',
+      rule: 'Chiudi 15 ripetizioni facili -> passa al carico successivo o alla variante più dura.'
     },
     {
       group: 'Allarme fatica & scarico',
       rule: 'Se un fondamentale cala di 2 ripetizioni per due sedute di fila: riduci il volume del 30% per una settimana.'
     },
     {
-      group: 'Finisher opzionale',
-      rule: 'Solo se i fondamentali di giornata sono stati completati puliti (o se le trazioni sono andate bene al Sabato).'
+      group: 'Metcon finale (3 giri a tempo, cap 9-10\', RPE 7-8)',
+      rule: 'Cardio a calorie (10-15 cal) + 2-3 funzionali. Se serve tempo o sei affaticato, riduci a 2 giri.'
     }
   ]
 };

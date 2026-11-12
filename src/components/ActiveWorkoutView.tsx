@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useWorkout } from '../context/WorkoutContext';
+import { useHeartRate } from '../context/HeartRateContext';
 import { VariantSelectorModal } from './VariantSelectorModal';
 import { MetconCustomizerModal } from './MetconCustomizerModal';
 import { MetconSection } from './MetconSection';
 import { WarmupModal } from './WarmupModal';
+import { HeartRateModal } from './HeartRateModal';
 import { evaluateProgression } from '../utils/progression';
 import { MetconResultLog } from '../types/workout';
 import {
@@ -21,6 +23,7 @@ import {
   Plus,
   Minus,
   Activity,
+  Heart,
   ChevronRight,
   ChevronLeft,
   X,
@@ -69,6 +72,18 @@ export const ActiveWorkoutView: React.FC = () => {
   const [showMetconModal, setShowMetconModal] = useState(false);
   const [showFinishConfirm, setShowFinishConfirm] = useState(false);
   const [showDiscardConfirm, setShowDiscardConfirm] = useState(false);
+  const [showHeartRateModal, setShowHeartRateModal] = useState(false);
+
+  // Heart Rate telemetry
+  const {
+    isConnected: isHrConnected,
+    currentBpm,
+    avgBpm: hrAvgBpm,
+    maxBpm: hrMaxBpm,
+    deviceName: hrDeviceName,
+    getSessionData: getHrSessionData,
+    resetSessionData: resetHrSessionData
+  } = useHeartRate();
 
   // Active workout duration ticker
   const [now, setNow] = useState(Date.now());
@@ -78,7 +93,12 @@ export const ActiveWorkoutView: React.FC = () => {
   }, []);
 
   // Navigation and round mode states
-  const [activeTab, setActiveTab] = useState<string>('pair-0');
+  const [activeTab, setActiveTab] = useState<string>(() => {
+    if (activeSession && (!activeSession.exerciseLogs || activeSession.exerciseLogs.length === 0) && activeSession.metconLog) {
+      return 'metcon';
+    }
+    return 'pair-0';
+  });
   const [pairActiveRound, setPairActiveRound] = useState<Record<number, number>>({});
   const [viewMode, setViewMode] = useState<'focus' | 'matrix'>('focus');
 
@@ -332,20 +352,22 @@ export const ActiveWorkoutView: React.FC = () => {
     <div className="min-h-screen bg-zinc-950 text-zinc-100 pb-28 pt-2 px-2 sm:px-4 max-w-lg mx-auto w-full box-border">
       {/* Sticky Compact Header - Two-line layout to prevent title and button collision */}
       <header className="sticky top-1 z-20 bg-zinc-900/95 backdrop-blur-md border border-zinc-800 rounded-2xl p-2.5 mb-2.5 shadow-xl w-full">
-        {/* Top Header Row: Status, Ticker, Warmup, Termina, Discard */}
-        <div className="flex items-center justify-between gap-1.5 mb-1 w-full">
-          <div className="flex items-center gap-1.5 min-w-0">
+        {/* Top Header Row: Status & Timer on Left, Session Controls on Right */}
+        <div className="flex items-center justify-between gap-2 mb-1.5 w-full">
+          {/* Status & Timer */}
+          <div className="flex items-center gap-1.5 shrink-0">
             <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse shrink-0" />
-            <span className="text-[10px] font-black uppercase tracking-wider text-emerald-400 shrink-0">
+            <span className="text-[10px] font-black uppercase tracking-wider text-emerald-400">
               In Corso
             </span>
-            <span className="text-zinc-500 text-[10px] shrink-0">•</span>
-            <span className="text-xs font-mono font-bold text-zinc-200 shrink-0">
+            <span className="text-zinc-500 text-[10px]">•</span>
+            <span className="text-xs font-mono font-bold text-zinc-200">
               {formatSecs(workoutDurationSec)}
             </span>
           </div>
 
-          <div className="flex items-center gap-1 shrink-0">
+          {/* Quick Action Buttons */}
+          <div className="flex items-center gap-1.5 shrink-0">
             {/* Quick Warmup Button */}
             <button
               type="button"
@@ -380,12 +402,74 @@ export const ActiveWorkoutView: React.FC = () => {
           </div>
         </div>
 
-        {/* Second Header Row: Routine title */}
-        <div className="mb-1.5">
-          <h1 className="text-xs sm:text-sm font-bold text-white truncate">
+        {/* Second Header Row: Routine title on left, Fascia Cardio on right */}
+        <div className="flex items-center justify-between gap-2 mb-1.5 w-full">
+          <h1 className="text-xs sm:text-sm font-bold text-white truncate min-w-0 flex-1">
             {activeSession.routineTitle}
           </h1>
+
+          {/* Heart Rate Live Monitor Badge / Quick Connect */}
+          <button
+            type="button"
+            onClick={() => setShowHeartRateModal(true)}
+            className={`px-2 py-1 rounded-lg border text-xs font-bold flex items-center gap-1.5 transition-all shrink-0 ${
+              isHrConnected
+                ? 'bg-rose-500/15 border-rose-500/40 text-rose-400 shadow-sm shadow-rose-500/20'
+                : 'bg-zinc-800/80 hover:bg-zinc-800 border-zinc-700/60 text-zinc-300 hover:text-rose-400'
+            }`}
+            title={
+              isHrConnected
+                ? `Fascia cardio collegata: ${hrDeviceName || 'BLE'} (${currentBpm || '--'} BPM)`
+                : 'Connetti Fascia Cardio Bluetooth'
+            }
+          >
+            <Heart
+              className={`w-3.5 h-3.5 ${
+                isHrConnected && currentBpm
+                  ? 'fill-rose-500 text-rose-500 animate-pulse'
+                  : 'text-zinc-400'
+              }`}
+            />
+            {isHrConnected ? (
+              <span className="font-mono font-black text-white text-[11px] flex items-center gap-0.5">
+                {currentBpm ?? '--'}
+                <span className="text-[9px] font-sans text-rose-400 font-bold">BPM</span>
+              </span>
+            ) : (
+              <span className="text-[10px] text-zinc-300 font-semibold flex items-center gap-1">
+                <span>Fascia Cardio</span>
+                <span className="w-1.5 h-1.5 rounded-full bg-zinc-600" />
+              </span>
+            )}
+          </button>
         </div>
+
+        {/* Heart Rate Live Telemetry Strip when connected */}
+        {isHrConnected && (
+          <div
+            onClick={() => setShowHeartRateModal(true)}
+            className="mb-1.5 p-1.5 px-2 bg-gradient-to-r from-rose-950/40 via-zinc-950 to-zinc-900 border border-rose-500/30 rounded-xl flex items-center justify-between cursor-pointer hover:border-rose-500/50 transition-all text-xs"
+          >
+            <div className="flex items-center gap-1.5 min-w-0">
+              <span className="relative flex h-2 w-2 shrink-0">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-rose-500"></span>
+              </span>
+              <span className="text-[11px] text-zinc-300 font-medium truncate">
+                Fascia: <strong className="text-white">{hrDeviceName || 'BLE'}</strong>
+              </span>
+            </div>
+
+            <div className="flex items-center gap-2 shrink-0">
+              <span className="font-mono font-bold text-[10px] text-zinc-400">
+                Media: <strong className="text-emerald-400">{hrAvgBpm > 0 ? hrAvgBpm : '--'}</strong> • Max: <strong className="text-rose-400">{hrMaxBpm > 0 ? hrMaxBpm : '--'}</strong>
+              </span>
+              <span className="px-1.5 py-0.2 rounded bg-rose-500/20 text-rose-300 font-mono font-black text-[11px] border border-rose-500/30">
+                {currentBpm ?? '--'} BPM
+              </span>
+            </div>
+          </div>
+        )}
 
         {/* Third Header Row: Real Rest & Progress Bar */}
         <div className="flex items-center justify-between text-[10px] text-zinc-400 font-medium mb-1">
@@ -1524,7 +1608,7 @@ export const ActiveWorkoutView: React.FC = () => {
               <button
                 type="button"
                 onClick={() => {
-                  finishWorkout();
+                  finishWorkout(getHrSessionData());
                   setShowFinishConfirm(false);
                 }}
                 className="flex-1 py-2.5 bg-emerald-500 hover:bg-emerald-400 text-zinc-950 font-black text-xs rounded-xl shadow-lg shadow-emerald-500/20"
@@ -1561,6 +1645,7 @@ export const ActiveWorkoutView: React.FC = () => {
                 type="button"
                 onClick={() => {
                   discardActiveWorkout();
+                  resetHrSessionData();
                   setShowDiscardConfirm(false);
                 }}
                 className="flex-1 py-2.5 bg-red-500 hover:bg-red-400 text-white font-bold text-xs rounded-xl shadow-lg shadow-red-500/20"
@@ -1674,7 +1759,7 @@ export const ActiveWorkoutView: React.FC = () => {
         </div>
       )}
 
-      {/* Warmup Modal (Extracted from PDF Page 2 - Ephemeral, not saved to history) */}
+      {/* Warmup Modal */}
       {showWarmupModal && (
         <WarmupModal
           isOpen={true}
@@ -1683,6 +1768,12 @@ export const ActiveWorkoutView: React.FC = () => {
           defaultTargetWeightKg={activeSession.exerciseLogs[0]?.sets[0]?.targetWeight || activeSession.exerciseLogs[0]?.sets[0]?.actualWeight || 80}
         />
       )}
+
+      {/* Heart Rate Monitor Modal (BLE Connection & Live Telemetry) */}
+      <HeartRateModal
+        isOpen={showHeartRateModal}
+        onClose={() => setShowHeartRateModal(false)}
+      />
     </div>
   );
 };

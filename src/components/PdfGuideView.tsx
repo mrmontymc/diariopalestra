@@ -9,7 +9,8 @@ import {
   Clock,
   Sparkles,
   ShieldCheck,
-  ChevronRight
+  ChevronRight,
+  Layers
 } from 'lucide-react';
 import { GENERAL_GUIDELINES } from '../data/defaultProgram';
 
@@ -30,20 +31,20 @@ export const PdfGuideView: React.FC = () => {
                 Guida & Principi Scheda
               </h1>
               <p className="text-[11px] text-zinc-400">
-                Basato sul documento PDF ufficiale del programma
+                Scheda settimanale: 4 full body da 3 super serie + metcon a calorie
               </p>
             </div>
           </div>
 
           <a
-            href="/assets/aistudio/scheda_allenamento_settimanale_2477b477.pdf"
+            href="/assets/aistudio/scheda_allenamento_settimanale_c3a69b27.pdf"
             target="_blank"
             rel="noopener noreferrer"
             className="p-2 bg-zinc-800 hover:bg-zinc-700 text-emerald-400 rounded-xl text-xs font-semibold flex items-center gap-1 border border-zinc-700"
             title="Apri PDF originale"
           >
             <ExternalLink className="w-3.5 h-3.5" />
-            <span className="hidden sm:inline">PDF</span>
+            <span className="hidden sm:inline">PDF Ufficiale</span>
           </a>
         </div>
 
@@ -80,7 +81,7 @@ export const PdfGuideView: React.FC = () => {
                 : 'text-zinc-400 hover:text-white'
             }`}
           >
-            Le 4 Coppie
+            Le Due Sedute (A/B)
           </button>
         </div>
       </div>
@@ -92,31 +93,31 @@ export const PdfGuideView: React.FC = () => {
           <div className="bg-zinc-900 border border-zinc-800 rounded-3xl p-4 shadow-lg">
             <div className="flex items-center gap-2 text-xs font-bold text-emerald-400 uppercase tracking-wider mb-2">
               <Clock className="w-4 h-4" />
-              Come si esegue una super serie
+              Come si esegue la scheda
             </div>
             <ul className="space-y-2 text-xs text-zinc-300">
               <li className="flex items-start gap-2">
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 mt-1.5 shrink-0" />
                 <span>
-                  <strong>1° Fondamentale:</strong> 4×5 pesante ma con 1-2 ripetizioni di margine (RIR 1-2).
-                </span>
-              </li>
-              <li className="flex items-start gap-2">
-                <span className="w-1.5 h-1.5 rounded-full bg-amber-400 mt-1.5 shrink-0" />
-                <span>
-                  <strong>2° Metabolico:</strong> subito dopo il fondamentale, 4×10-12 (per lato se unilaterale). Nessuna pausa tra i due!
+                  <strong>1° Fondamentale e subito il metabolico:</strong> margine di 1-2 ripetizioni sul fondamentale, RPE 7-8 sul metabolico.
                 </span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 mt-1.5 shrink-0" />
                 <span>
-                  <strong>Recupero 90-120":</strong> solo dopo aver completato il metabolico. Poi si riparte (4 giri per coppia).
+                  <strong>Riposo 60-90":</strong> 90" dopo squat, panca, military e hip thrust; 60-75" dopo rematore e trazioni.
                 </span>
               </li>
               <li className="flex items-start gap-2">
-                <span className="w-1.5 h-1.5 rounded-full bg-zinc-400 mt-1.5 shrink-0" />
+                <span className="w-1.5 h-1.5 rounded-full bg-amber-400 mt-1.5 shrink-0" />
                 <span>
-                  <strong>Attrezzatura:</strong> solo bilanciere, sbarra, manubri, KB e panca. Nessun macchinario.
+                  <strong>Metcon finale:</strong> 3 giri a tempo (cap 9-10'), cardio a calorie + 2-3 funzionali, RPE 7-8. Se serve tempo, riduci a 2 giri.
+                </span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-sky-400 mt-1.5 shrink-0" />
+                <span>
+                  <strong>Volume settimanale:</strong> spinta 32 serie, trazione 24 (rapporto bilanciato 4:3). Durata stimata ~60' a seduta.
                 </span>
               </li>
             </ul>
@@ -126,7 +127,7 @@ export const PdfGuideView: React.FC = () => {
           <div className="bg-zinc-900 border border-zinc-800 rounded-3xl p-4 shadow-lg space-y-3">
             <div className="flex items-center gap-2 text-xs font-bold text-amber-400 uppercase tracking-wider">
               <ShieldCheck className="w-4 h-4" />
-              Regole di buon senso (dal PDF)
+              Regole e Linee Guida Ufficiali
             </div>
 
             {GENERAL_GUIDELINES.rulesOfThumb.map((r, i) => (
@@ -149,7 +150,7 @@ export const PdfGuideView: React.FC = () => {
           <div className="bg-zinc-900 border border-zinc-800 rounded-3xl p-4 shadow-lg">
             <div className="flex items-center gap-2 text-xs font-bold text-emerald-400 uppercase tracking-wider mb-3">
               <Sparkles className="w-4 h-4" />
-              Regole di Progressione Automatica
+              Regole di Progressione
             </div>
 
             <div className="space-y-2.5">
@@ -173,71 +174,103 @@ export const PdfGuideView: React.FC = () => {
               Gestione Fatica & Scarico
             </div>
             <p className="text-xs text-zinc-300 leading-relaxed">
-              La progressione non è sempre lineare. Se noti un calo di 2 ripetizioni per due sedute consecutive sullo stesso fondamentale, il sistema nervoso sta segnalando accumulo di fatica. 
+              Se un fondamentale cala di 2 ripetizioni per due sedute consecutive, riduci il volume del 30% per una settimana.
               <br /><br />
-              <strong>Azione consigliata:</strong> salta la seduta delle braccia e il metcon per recuperare piena freschezza prima di riprendere a caricare.
+              <strong>Rematore del martedì:</strong> carico moderato, eseguito il giorno dopo il rematore pesante del lunedì.
+              <br />
+              <strong>Push press:</strong> leggero, con tecnica impeccabile.
             </p>
           </div>
         </div>
       )}
 
-      {/* Tab: Le 4 Coppie */}
+      {/* Tab: Le Due Sedute (A/B) */}
       {activeTab === 'coppie' && (
         <div className="space-y-3">
-          {[
-            {
-              code: 'A',
-              title: 'Super serie A',
-              fond: 'Back squat (gambe) [4×5]',
-              met: 'Renegade row con manubri (dorso/core) [4×10-12/lato]',
-              tip: 'Distretti: arti inferiori + tirata orizzontale in plank anti-rotazione.'
-            },
-            {
-              code: 'B',
-              title: 'Super serie B',
-              fond: 'Panca piana bilanciere (petto) [4×5]',
-              met: 'KB swing (catena posteriore) [4×10-12]',
-              tip: 'Distretti: spinta orizzontale + cerniera d\'anca esplosiva per femorali e glutei.'
-            },
-            {
-              code: 'C',
-              title: 'Super serie C',
-              fond: 'Trazioni alla sbarra (dorso) [4×5]',
-              met: 'Affondi indietro con manubri (gambe) [4×10-12/lato]',
-              tip: 'Distretti: tirata verticale + lavoro gambe unilaterale e stabilità.'
-            },
-            {
-              code: 'D',
-              title: 'Super serie D',
-              fond: 'Hip thrust bilanciere (glutei) [4×5]',
-              met: 'Push press con manubri (spalle) [4×10-12]',
-              tip: 'Distretti: massima estensione d\'anca + spinta verticale esplosiva di deltoidi.'
-            }
-          ].map(pair => (
-            <div key={pair.code} className="bg-zinc-900 border border-zinc-800 rounded-3xl p-4 shadow-lg">
-              <div className="flex items-center gap-2 mb-2">
-                <span className="w-6 h-6 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-xs font-bold">
-                  {pair.code}
+          {/* Seduta A */}
+          <div className="bg-zinc-900 border border-zinc-800 rounded-3xl p-4 shadow-lg space-y-3">
+            <div className="flex items-center justify-between border-b border-zinc-800 pb-2">
+              <div className="flex items-center gap-2">
+                <span className="px-2 py-0.5 rounded-lg bg-emerald-500/20 text-emerald-400 text-xs font-bold">
+                  Seduta A
                 </span>
-                <span className="text-sm font-bold text-white">{pair.title}</span>
+                <span className="text-sm font-bold text-white">Lunedì e Giovedì</span>
               </div>
-
-              <div className="space-y-1.5 text-xs">
-                <div className="p-2 rounded-xl bg-zinc-950 border border-zinc-800 text-emerald-300">
-                  <span className="font-semibold text-zinc-400">1° Fondamentale: </span>
-                  {pair.fond}
-                </div>
-                <div className="p-2 rounded-xl bg-zinc-950 border border-zinc-800 text-amber-300">
-                  <span className="font-semibold text-zinc-400">2° Metabolico: </span>
-                  {pair.met}
-                </div>
-              </div>
-
-              <p className="text-[11px] text-zinc-400 mt-2">
-                💡 {pair.tip}
-              </p>
+              <span className="text-[10px] text-zinc-400 font-mono">3 super serie</span>
             </div>
-          ))}
+
+            <div className="space-y-2">
+              <div className="p-2.5 rounded-2xl bg-zinc-950 border border-zinc-800/80">
+                <div className="text-[11px] font-bold text-emerald-400 uppercase tracking-wider">A1 • Gambe & Spalle (Riposo 90")</div>
+                <div className="text-xs text-zinc-200 mt-1 font-semibold">Back squat 4×5 <span className="text-zinc-500 font-normal">+</span> Push press manubri 4×15 (leggeri)</div>
+              </div>
+
+              <div className="p-2.5 rounded-2xl bg-zinc-950 border border-zinc-800/80">
+                <div className="text-[11px] font-bold text-emerald-400 uppercase tracking-wider">A2 • Petto & Polpacci (Riposo 90")</div>
+                <div className="text-xs text-zinc-200 mt-1 font-semibold">Panca piana 4×5 <span className="text-zinc-500 font-normal">+</span> Calf raise manubri 4×15 (a una gamba, seduto)</div>
+              </div>
+
+              <div className="p-2.5 rounded-2xl bg-zinc-950 border border-zinc-800/80">
+                <div className="text-[11px] font-bold text-emerald-400 uppercase tracking-wider">A3 • Dorso & Gambe unilaterali (Riposo 60-75")</div>
+                <div className="text-xs text-zinc-200 mt-1 font-semibold">Rematore petto poggiato 4×8 <span className="text-zinc-500 font-normal">+</span> Affondi indietro manubri 4×10 per lato</div>
+              </div>
+            </div>
+
+            <div className="p-2.5 rounded-2xl bg-zinc-800/50 text-[11px] text-zinc-300 space-y-1">
+              <div>🔄 <strong>Ordine coppie:</strong> Lunedì A1 - A2 - A3 • Giovedì A3 - A1 - A2 (rematore a schiena fresca).</div>
+              <div>🔥 <strong>Metcon Lunedì:</strong> 12 cal air bike, 15 KB swing, 10 V-up (3 giri, cap 9-10').</div>
+              <div>🔥 <strong>Metcon Giovedì:</strong> 10 cal ski erg, 10 stacco manubri, 40 m farmer walk.</div>
+            </div>
+          </div>
+
+          {/* Seduta B */}
+          <div className="bg-zinc-900 border border-zinc-800 rounded-3xl p-4 shadow-lg space-y-3">
+            <div className="flex items-center justify-between border-b border-zinc-800 pb-2">
+              <div className="flex items-center gap-2">
+                <span className="px-2 py-0.5 rounded-lg bg-sky-500/20 text-sky-400 text-xs font-bold">
+                  Seduta B
+                </span>
+                <span className="text-sm font-bold text-white">Martedì e Sabato</span>
+              </div>
+              <span className="text-[10px] text-zinc-400 font-mono">3 super serie</span>
+            </div>
+
+            <div className="space-y-2">
+              <div className="p-2.5 rounded-2xl bg-zinc-950 border border-zinc-800/80">
+                <div className="text-[11px] font-bold text-sky-400 uppercase tracking-wider">B1 • Spalle & Squat leggero (Riposo 90")</div>
+                <div className="text-xs text-zinc-200 mt-1 font-semibold">Military press 4×5 <span className="text-zinc-500 font-normal">+</span> Air squat con fermo 3-5" 4×15 (mar leg extension, sab leg curl)</div>
+              </div>
+
+              <div className="p-2.5 rounded-2xl bg-zinc-950 border border-zinc-800/80">
+                <div className="text-[11px] font-bold text-sky-400 uppercase tracking-wider">B2 • Trazioni & Petto (Riposo 60-75")</div>
+                <div className="text-xs text-zinc-200 mt-1 font-semibold">Trazioni alla sbarra 4×5 <span className="text-zinc-500 font-normal">+</span> Push-up 4×15 (tempo, piedi rialzati, zavorrato)</div>
+              </div>
+
+              <div className="p-2.5 rounded-2xl bg-zinc-950 border border-zinc-800/80">
+                <div className="text-[11px] font-bold text-sky-400 uppercase tracking-wider">B3 • Glutei & Dorso moderato (Riposo 90")</div>
+                <div className="text-xs text-zinc-200 mt-1 font-semibold">Hip thrust 4×6-8 <span className="text-zinc-500 font-normal">+</span> Rematore con manubri petto poggiato 4×15 (RPE 7)</div>
+              </div>
+            </div>
+
+            <div className="p-2.5 rounded-2xl bg-zinc-800/50 text-[11px] text-zinc-300 space-y-1">
+              <div>🔄 <strong>Ordine coppie:</strong> Martedì B1 - B2 - B3 • Sabato B2 - B1 - B3 (apri con le trazioni; hip thrust per ultimo).</div>
+              <div>🔥 <strong>Metcon Martedì:</strong> 12-15 cal rower, 40 m farmer walk, 10 sit-up (3 giri, cap 9-10').</div>
+              <div>🔥 <strong>Metcon Sabato (post-pallavolo):</strong> 10 cal tapis in salita a camminata (o air bike), 40 m farmer walk, 10 knee raise. Zero impatto!</div>
+            </div>
+          </div>
+
+          {/* Venerdì Braccia + Cardio */}
+          <div className="bg-zinc-900 border border-zinc-800 rounded-3xl p-4 shadow-lg space-y-2">
+            <div className="flex items-center gap-2">
+              <span className="px-2 py-0.5 rounded-lg bg-amber-500/20 text-amber-400 text-xs font-bold">
+                Venerdì
+              </span>
+              <span className="text-sm font-bold text-white">Pallavolo / Braccia + Cardio</span>
+            </div>
+            <p className="text-xs text-zinc-400">
+              Braccia + cardio solo se non c'è pallavolo. Super serie antagoniste senza cedimento: Curl bilanciere / French press • Curl martello / Dip tra panche • Alzate laterali / Curl inverso + 25-35' di vogatore a ritmo facile e costante.
+            </p>
+          </div>
         </div>
       )}
     </div>

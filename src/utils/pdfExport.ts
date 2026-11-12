@@ -344,6 +344,11 @@ export async function generateWorkoutStatisticsPdf(options: PdfExportOptions): P
 
   const allExercises = Object.values(exerciseMap).sort((a, b) => b.totalVolumeKg - a.totalVolumeKg);
 
+  const hrSessions = sessionLogs.filter(s => s.heartRateData && s.heartRateData.avgBpm > 0);
+  const avgBpmOverall = hrSessions.length > 0
+    ? Math.round(hrSessions.reduce((sum: number, s) => sum + (s.heartRateData?.avgBpm || 0), 0) / hrSessions.length)
+    : 0;
+
   // Helper for adding footer
   const addFooter = (pageNum: number, totalPagesPlaceholder: string) => {
     doc.setFont('helvetica', 'normal');
@@ -414,10 +419,12 @@ export async function generateWorkoutStatisticsPdf(options: PdfExportOptions): P
       color: [16, 185, 129]
     },
     {
-      title: 'CARDIO (BIKE, SKI, ROW, TAPIS)',
-      val: `${totalCardioCalories.toLocaleString()} kcal`,
-      sub: `${totalCardioMinutes} min • ${(totalCardioMeters / 1000).toFixed(1)} km`,
-      color: [6, 182, 212] // cyan
+      title: avgBpmOverall > 0 ? 'CARDIO & FASCIA CARDIACA' : 'CARDIO (BIKE, SKI, ROW, TAPIS)',
+      val: avgBpmOverall > 0 ? `Media ${avgBpmOverall} BPM` : `${totalCardioCalories.toLocaleString()} kcal`,
+      sub: avgBpmOverall > 0
+        ? `${totalCardioCalories} kcal • ${totalCardioMinutes}m • ${hrSessions.length} sedute HR`
+        : `${totalCardioMinutes} min • ${(totalCardioMeters / 1000).toFixed(1)} km`,
+      color: avgBpmOverall > 0 ? [244, 63, 94] : [6, 182, 212] // rose or cyan
     },
     {
       title: 'CIRCUITI METCON (AMRAP/EMOM)',

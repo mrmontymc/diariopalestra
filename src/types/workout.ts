@@ -97,9 +97,37 @@ export interface MetconConfig {
   instructions: string;
 }
 
+export type CardioMode = 'steady' | 'intervals';
+
+export interface CardioUserProfile {
+  gender: 'uomo' | 'donna';
+  weightKg: number;
+  heightCm: number;
+  age: number;
+}
+
+export interface CardioIntervalConfig {
+  rounds: number;
+  workSec: number;
+  restSec: number;
+  warmupSec?: number;
+  cooldownSec?: number;
+}
+
+export interface CardioSessionConfig {
+  activity: string; // 'vogatore' | 'air_bike' | 'skierg' | 'tapis_roulant' | 'corsa' | 'cyclette' | 'corda' | 'ellittica' | 'cardio_libero'
+  activityLabel: string;
+  mode: CardioMode;
+  targetDurationMin?: number; // for steady state
+  targetCalories?: number;
+  intervals?: CardioIntervalConfig; // for interval mode
+  userProfile?: CardioUserProfile; // for accurate caloric calculation
+  notes?: string;
+}
+
 export interface CardioConfig {
   title: string;
-  equipment: 'vogatore' | 'air_bike' | 'skierg' | 'tapis_roulant';
+  equipment: 'vogatore' | 'air_bike' | 'skierg' | 'tapis_roulant' | string;
   durationMin: number;
   distanceMeters?: number;
   caloriesKcal?: number;
@@ -145,12 +173,15 @@ export interface MetconResultLog {
 }
 
 export interface CardioResultLog {
-  equipment: 'vogatore' | 'air_bike' | 'skierg' | 'tapis_roulant';
+  equipment: 'vogatore' | 'air_bike' | 'skierg' | 'tapis_roulant' | string;
   durationMin: number;
   distanceMeters?: number;
   caloriesKcal?: number;
   sensations: string;
   avgPace?: string;
+  mode?: CardioMode;
+  intervalsCompleted?: number;
+  totalIntervals?: number;
 }
 
 export interface RestPeriodLog {
@@ -158,6 +189,32 @@ export interface RestPeriodLog {
   targetSec: number;
   durationSec: number;
   label: string;
+}
+
+export interface HeartRateSample {
+  timestamp: number;
+  workoutSecond: number;
+  bpm: number;
+}
+
+export interface HeartRateZoneBreakdown {
+  zone1RecoverySec: number; // < 60% HR max (< 115 bpm)
+  zone2AerobicSec: number;  // 60-70% HR max (115-135 bpm)
+  zone3TempoSec: number;    // 70-80% HR max (135-155 bpm)
+  zone4ThresholdSec: number;// 80-90% HR max (155-175 bpm)
+  zone5AnaerobicSec: number;// > 90% HR max (> 175 bpm)
+}
+
+export interface HeartRateSessionData {
+  connectedDeviceName?: string;
+  currentBpm?: number;
+  avgBpm: number;
+  maxBpm: number;
+  minBpm: number;
+  samples: HeartRateSample[];
+  zones?: HeartRateZoneBreakdown;
+  batteryLevel?: number;
+  isSimulated?: boolean;
 }
 
 export interface WorkoutSessionLog {
@@ -173,6 +230,7 @@ export interface WorkoutSessionLog {
   exerciseLogs: ExerciseLogItem[];
   metconLog?: MetconResultLog;
   cardioLog?: CardioResultLog;
+  cardioSessionConfig?: CardioSessionConfig;
   generalNotes?: string;
   fatigueAdjustmentsApplied?: boolean; // e.g. post-pallavolo adjustment
   
@@ -180,6 +238,9 @@ export interface WorkoutSessionLog {
   totalActualRestSec: number;
   averageRestSec: number;
   restPeriods: RestPeriodLog[];
+
+  // Heart rate monitor & cardio telemetry
+  heartRateData?: HeartRateSessionData;
 }
 
 export interface ExerciseVariantStats {

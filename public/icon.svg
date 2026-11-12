@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <rect width="512" height="512" rx="110" fill="#09090b"/>
+  <circle cx="256" cy="256" r="220" fill="url(#glow)" opacity="0.4"/>
+  <defs>
+    <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#10b981" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#09090b" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="barGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#71717a"/>
+      <stop offset="50%" stop-color="#e4e4e7"/>
+      <stop offset="100%" stop-color="#71717a"/>
+    </linearGradient>
+    <linearGradient id="plateGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#34d399"/>
+      <stop offset="100%" stop-color="#059669"/>
+    </linearGradient>
+    <linearGradient id="flameGrad" x1="0%" y1="100%" x2="0%" y2="0%">
+      <stop offset="0%" stop-color="#ea580c"/>
+      <stop offset="50%" stop-color="#f97316"/>
+      <stop offset="100%" stop-color="#fbbf24"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Barbells / Dumbbells -->
+  <rect x="136" y="242" width="240" height="28" rx="14" fill="url(#barGrad)" />
+  
+  <!-- Left plates -->
+  <rect x="190" y="226" width="16" height="60" rx="6" fill="#52525b" />
+  <rect x="156" y="176" width="28" height="160" rx="10" fill="url(#plateGrad)" stroke="#10b981" stroke-width="4" />
+  <rect x="124" y="196" width="24" height="120" rx="8" fill="url(#plateGrad)" opacity="0.9" />
+
+  <!-- Right plates -->
+  <rect x="306" y="226" width="16" height="60" rx="6" fill="#52525b" />
+  <rect x="328" y="176" width="28" height="160" rx="10" fill="url(#plateGrad)" stroke="#10b981" stroke-width="4" />
+  <rect x="364" y="196" width="24" height="120" rx="8" fill="url(#plateGrad)" opacity="0.9" />
+
+  <!-- Center Flame Badge -->
+  <path d="M256 120 C275 160 300 185 290 220 C280 250 256 260 256 260 C256 260 232 250 222 220 C212 185 237 160 256 120 Z" fill="url(#flameGrad)" />
+  <path d="M256 165 C266 190 276 205 272 225 C268 242 256 250 256 250 C256 250 244 242 240 225 C236 205 246 190 256 165 Z" fill="#fef08a" opacity="0.9"/>
+</svg>
