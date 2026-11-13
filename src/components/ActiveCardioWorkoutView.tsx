@@ -281,22 +281,39 @@ export const ActiveCardioWorkoutView: React.FC = () => {
 
   // Terminate & Save
   const handleConfirmFinish = () => {
-    const hrData = getSessionData();
-    updateActiveSession(prev => ({
-      ...prev,
-      durationSec: elapsedSec,
-      cardioLog: {
-        equipment: config.activity,
-        durationMin: Math.max(1, Math.round(elapsedSec / 60)),
-        caloriesKcal: estimatedCalories,
-        sensations: `Sessione cardio ${config.activityLabel} completata (${config.mode === 'intervals' ? `${intervalConfig.rounds} round intervalli` : `${Math.round(elapsedSec / 60)} minuti a tempo`}).`,
-        mode: config.mode,
-        intervalsCompleted: isIntervals ? currentRound : undefined,
-        totalIntervals: isIntervals ? intervalConfig.rounds : undefined
-      }
-    }));
+    const rawHrData = getSessionData();
+    const hrData = rawHrData
+      ? {
+          ...rawHrData,
+          zones: {
+            zone1RecoverySec: zoneSeconds.z1 || rawHrData.zones?.zone1RecoverySec || 0,
+            zone2AerobicSec: zoneSeconds.z2 || rawHrData.zones?.zone2AerobicSec || 0,
+            zone3TempoSec: zoneSeconds.z3 || rawHrData.zones?.zone3TempoSec || 0,
+            zone4ThresholdSec: zoneSeconds.z4 || rawHrData.zones?.zone4ThresholdSec || 0,
+            zone5AnaerobicSec: zoneSeconds.z5 || rawHrData.zones?.zone5AnaerobicSec || 0
+          }
+        }
+      : undefined;
 
-    finishWorkout(hrData);
+    const minsFloat = elapsedSec / 60;
+    const durationMinRounded = Math.max(1, Math.round(minsFloat));
+    const cardioLogPayload = {
+      equipment: config.activity,
+      durationMin: durationMinRounded,
+      caloriesKcal: estimatedCalories,
+      sensations:
+        config.mode === 'intervals'
+          ? `Sessione ${config.activityLabel} ad intervalli (${currentRound}/${intervalConfig.rounds} giri, ${intervalConfig.workSec}"/${intervalConfig.restSec}").`
+          : `Sessione ${config.activityLabel} a tempo completata.`,
+      mode: config.mode,
+      intervalsCompleted: isIntervals ? currentRound : undefined,
+      totalIntervals: isIntervals ? intervalConfig.rounds : undefined
+    };
+
+    finishWorkout(hrData, {
+      durationSec: elapsedSec,
+      cardioLog: cardioLogPayload
+    });
     setShowFinishConfirm(false);
   };
 

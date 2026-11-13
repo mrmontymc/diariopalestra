@@ -301,7 +301,7 @@ interface WorkoutContextType {
   startCardioWorkout: (config: CardioSessionConfig) => void;
   applyMetconToRoutine: (routineId: string, metcon: MetconConfig) => void;
   updateActiveSession: (updater: (prev: WorkoutSessionLog) => WorkoutSessionLog) => void;
-  finishWorkout: (heartRateData?: HeartRateSessionData) => void;
+  finishWorkout: (heartRateData?: HeartRateSessionData, sessionOverrides?: Partial<WorkoutSessionLog>) => void;
   discardActiveWorkout: () => void;
   deleteSessionLog: (id: string) => void;
   
@@ -935,7 +935,10 @@ export const WorkoutProvider: React.FC<{ children: ReactNode }> = ({ children })
     setActiveSession(prev => (prev ? updater(prev) : null));
   };
 
-  const finishWorkout = (heartRateData?: HeartRateSessionData) => {
+  const finishWorkout = (
+    heartRateData?: HeartRateSessionData,
+    sessionOverrides?: Partial<WorkoutSessionLog>
+  ) => {
     if (!activeSession) return;
 
     const now = Date.now();
@@ -946,13 +949,14 @@ export const WorkoutProvider: React.FC<{ children: ReactNode }> = ({ children })
 
     const completedSession: WorkoutSessionLog = {
       ...activeSession,
+      ...sessionOverrides,
       endTime: now,
-      durationSec: duration,
+      durationSec: sessionOverrides?.durationSec ?? duration,
       completed: true,
       totalActualRestSec: activeSession.totalActualRestSec || 0,
       averageRestSec: finalAvgRest,
       restPeriods: activeSession.restPeriods || [],
-      heartRateData: heartRateData || activeSession.heartRateData
+      heartRateData: heartRateData || sessionOverrides?.heartRateData || activeSession.heartRateData
     };
 
     // Update weights tracking for each completed exercise
